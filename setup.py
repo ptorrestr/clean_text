@@ -18,7 +18,7 @@ setup(
     license='GNU',
     packages=['clean_text', 'clean_text.tests'],
     install_requires=[
-        'nltk',
+        'nltk >= 2.0.4',
     ],
     entry_points = {
         'console_scripts':[
