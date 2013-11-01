@@ -92,9 +92,9 @@ class TestCleanerFunctions(unittest.TestCase):
     def test_processLine(self):
         line = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272	71610408" + 
             "	@baloji you were so awesome, it was amazing and you were" + 
-            " shining like the star that you are...MERCI!! #baloji")
+            " shining like the star that you are...MERCI!! #baloji i_i")
         goldenLine = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272" + 
-            "	71610408	awesome wa amazing shining like star" + 
+            "	71610408	awesome amazing shining like star" + 
             " merci baloji	")
         newLine = processLine(line)
         self.assertEqual(newLine, goldenLine)

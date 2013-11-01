@@ -58,11 +58,16 @@ def stopwording(token, language = 'english'):
     return ""
 
 def removePunctuationAndNumbers(token):
-    punctuation = re.compile(r'[\W|0-9]')
+    punctuation = re.compile(r'[\W|0-9|_]')
     return punctuation.sub("", token)
 
 def removeSingleChar(token, excepts = ["#"]):
     if len(token) > 1 or token in excepts:
+        return token
+    return ""
+
+def removeDoubleChar(token, excepts = []):
+    if len(token) > 2 or token in excepts:
         return token
     return ""
 
@@ -89,7 +94,7 @@ def cleanSentence(sentence):
     # Clean sentence
     newTokens = setenceCleaner(tokens, [stemming, toLowerCase,
             removePunctuationAndNumbers, stopwording,
-            removeSingleChar])
+            removeSingleChar, removeDoubleChar])
 
     # Post clean. Join #, and @
     mergeTokens = mergeHash(newTokens)
