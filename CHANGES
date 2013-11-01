@@ -1,0 +1,17 @@
+commit f1c4ef8aa1ddd1be5d6193cdd4e20f3eb822a6c3
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 1 15:47:12 2013 +0000
+
+    remove double chars
+
+commit b36f1b32ec922032322b4f46bba0e5272f90fc57
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Oct 18 16:10:50 2013 +0100
+
+    add nltk version in setup.py
+
+commit f7e12888e9ab6541ef6b95f4fd2f8c8268656f10
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Oct 18 16:05:13 2013 +0100
+
+    initial commit
