@@ -108,11 +108,12 @@ def processLine(line, criteria = "\t", position = 3):
     if position >= len(columns):
         raise Exception("Line only have " + str(len(columns)) + " columns. " + 
             "(Asking for " + str(position) + ")")
-    newTweet = cleanSentence(columns[position])
-    columns[position] = newTweet
+    newStatus = cleanSentence(columns[position])
     newLine = ""
     for column in columns:
         newLine += column + criteria
+    # Add clean text in the end of the line (create a new field)
+    newLine += newStatus
     return newLine
 
 def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPosition = 3):
@@ -122,7 +123,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
     for line in lines:
         try:
             if line == "":
-                print("Warning: Empty line at line: " + str(countLine))
+                print("Warning: Empty field at line: " + str(countLine))
                 continue
             newLine = processLine(line, criteriaForLine, columnPosition)
             newText += newLine + criteria
@@ -133,7 +134,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
     return newText
 
 def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
-        criteriaForLine = "\t", columnPosition = 3):
+        criteriaForLine = "\t", columnPosition = 4):
     clean_text.globals.init()
     #Set stopwords
     clean_text.data.setStopwordsPath(stopwordsPath)
