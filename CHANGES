@@ -1,3 +1,15 @@
+commit 79cb1b3d288e08a79d8b5879fbe6fe8b61e25c61
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 16:46:14 2013 +0000
+
+    support for user defined stopword list
+
+commit ce1425c8def7e50efe9013c6ba1929e93c6f633b
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 1 15:48:05 2013 +0000
+
+    add CHANGES file
+
 commit f1c4ef8aa1ddd1be5d6193cdd4e20f3eb822a6c3
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Fri Nov 1 15:47:12 2013 +0000
