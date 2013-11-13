@@ -16,8 +16,14 @@ from clean_text.cleaner import cleanSentence
 from clean_text.cleaner import processLine
 from clean_text.cleaner import processFile
 from clean_text.cleaner import cleaner
+from clean_text.data import setStopwordsPath
+from clean_text.globals import init
 
 class TestCleanerFunctions(unittest.TestCase):
+    def setUp(self):
+        init()
+        setStopwordsPath("./etc/stopwords_en.txt")
+        
     def test_removeUrl(self):
         sentence = "this is an URL http://google.ie http://google.cl http://google.com"
         goldenSentence = "this is an URL   "
@@ -59,10 +65,10 @@ class TestCleanerFunctions(unittest.TestCase):
             self.assertEqual(toLowerCase(sentence[i]), sentenceLowerCase[i])
 
     def test_stopwording(self):
-        sentence = ["At", "eight", "not", "on", "Thursday", "morning", 
+        sentence = ["at", "eight", "not", "on", "thursday", "morning", 
             "Arthur", "didn't", "feel", "very", "good"]
-        sentenceStopwording = ["At", "eight", "", "", "Thursday", "morning", 
-            "Arthur", "didn't", "feel", "", "good"]
+        sentenceStopwording = ["", "eight", "", "", "thursday", "morning", 
+            "Arthur", "", "feel", "", "good"]
         for i in range(0, len(sentence)):
             self.assertEqual(stopwording(sentence[i]), sentenceStopwording[i])
 
@@ -100,13 +106,14 @@ class TestCleanerFunctions(unittest.TestCase):
         self.assertEqual(newLine, goldenLine)
 
     def test_processFile(self):
-        path = "/home/pablo/data/run-adapter-fsd-db/Sun_Aug_07_01_00_00_IST_2011.tsv"
+        path = "./etc/example.tsv"
         with open(path, 'r') as contentFile:
             fullText = contentFile.read()
         processFile(fullText)
 
     def test_cleaner(self):
-        path = "/home/pablo/data/run-adapter-fsd-db/Sun_Aug_07_01_00_00_IST_2011.tsv"
-        cleaner(path, path + ".clean")
+        path = "./etc/example.tsv"
+        stopwordsPath = "./etc/stopwords_en.txt"
+        cleaner(path, path + ".clean", stopwordsPath)
         self.assertTrue(isfile(path + ".clean"))
 

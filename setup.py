@@ -18,6 +18,7 @@ setup(
     license='GNU',
     packages=['clean_text', 'clean_text.tests'],
     install_requires=[
+        't2db_objects >= 0.5.5',
         'nltk >= 2.0.4',
     ],
     entry_points = {

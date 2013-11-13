@@ -2,6 +2,7 @@ import nltk
 import re
 import sys
 import argparse
+import clean_text
 
 def removeUrl(sentence):
     urls = re.compile(
@@ -53,9 +54,11 @@ def toLowerCase(token):
     return token.lower()
 
 def stopwording(token, language = 'english'):
-    if not token in nltk.corpus.stopwords.words(language):
-        return token
-    return ""
+    if token in nltk.corpus.stopwords.words(language):
+        return ""
+    if token in clean_text.data.stopwords():
+        return ""
+    return token
 
 def removePunctuationAndNumbers(token):
     punctuation = re.compile(r'[\W|0-9|_]')
@@ -129,8 +132,12 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
         countLine += 1
     return newText
 
-def cleaner(path, outputPath, criteriaForFile = "\n", criteriaForLine = "\t",
-        columnPosition = 3):
+def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
+        criteriaForLine = "\t", columnPosition = 3):
+    clean_text.globals.init()
+    #Set stopwords
+    clean_text.data.setStopwordsPath(stopwordsPath)
+    #Read input file
     with open(path, 'r') as contentFile:
         fullText = contentFile.read()
     newText = processFile(fullText, criteriaForFile, criteriaForLine, columnPosition)
@@ -166,9 +173,14 @@ def main():
         default = 3,
         type = int,
         required = False)
+    parser.add_argument('-sw',
+        help = 'Stopword file, default = None',
+        default = '',
+        type = str,
+        required = False)
     args = parser.parse_args()
     try:
-        cleaner(args.f, args.o, args.cf, args.cl, args.cp)
+        cleaner(args.f, args.o, args.cf, args.cl, args.cp, args.sw)
     except Exception as e:
         print("Error found: " + str(e))
         sys.exit(2)
