@@ -2,7 +2,9 @@ import nltk
 import re
 import sys
 import argparse
-import clean_text
+
+from clean_text import data
+from clean_text import globals
 
 def removeUrl(sentence):
     urls = re.compile(
@@ -56,7 +58,7 @@ def toLowerCase(token):
 def stopwording(token, language = 'english'):
     if token in nltk.corpus.stopwords.words(language):
         return ""
-    if token in clean_text.data.stopwords():
+    if token in data.stopwords():
         return ""
     return token
 
@@ -135,9 +137,9 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
 
 def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
         criteriaForLine = "\t", columnPosition = 4):
-    clean_text.globals.init()
+    globals.init()
     #Set stopwords
-    clean_text.data.setStopwordsPath(stopwordsPath)
+    data.setStopwordsPath(stopwordsPath)
     #Read input file
     with open(path, 'r') as contentFile:
         fullText = contentFile.read()
@@ -180,9 +182,9 @@ def main():
         type = str,
         required = False)
     args = parser.parse_args()
-    try:
-        cleaner(args.f, args.o, args.cf, args.cl, args.cp, args.sw)
-    except Exception as e:
-        print("Error found: " + str(e))
-        sys.exit(2)
+    #try:
+    cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp)
+    #except Exception as e:
+    #    print("Error found: " + str(e))
+    #    sys.exit(2)
     sys.exit(0)
