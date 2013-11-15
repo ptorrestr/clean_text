@@ -36,14 +36,15 @@ class TestCleanerFunctions(unittest.TestCase):
 
     def test_tokenize(self):
         sentence = "Hello didn't very happy 1313"
-        goldenTokens = ["Hello", "did", "n't", "very", "happy", "1313"]
+        goldenTokens = ["Hello" , "did", "n't", "very", "happy", "1313"]
         tokens = tokenize(sentence)
         for i in range(0, len(tokens)):
-            self.assertEqual(tokens[i], goldenTokens[i])
+            self.assertEqual(tokens[i][0], goldenTokens[i])
 
     def test_sentenize(self):
-        tokens = ["Hello", "I", "'m", "very", "happy", "1313"]
+        sentence = "Hello I'm very happy 1313"
         goldenSentence = "Hello I 'm very happy 1313"
+        tokens = tokenize(sentence)
         self.assertEqual(sentenize(tokens), goldenSentence)
 
     def test_sentenceCleaner(self):
@@ -53,40 +54,49 @@ class TestCleanerFunctions(unittest.TestCase):
             removePunctuationAndNumbers, toLowerCase, stopwording])
 
     def test_stemming(self):
-        sentence = ["boys", "women", "homes", "n't", "cars", "archives"]
-        sentenceStemmed = ["boy", "woman", "home", "not", "car", "archive"]
-        for i in range(0, len(sentence)):
-            self.assertEqual(stemming(sentence[i]), sentenceStemmed[i])
-
+        sentence = "boys and women want to have homes, not cars going and archives"
+        goldenSentence = "boy and woman want to have home , not car go and archive"
+        tokens = tokenize(sentence)
+        newTokens = []
+        for token in tokens:
+            newTokens.append(stemming(token))
+        self.assertEqual(sentenize(newTokens), goldenSentence)
+    
     def test_toLowerCase(self):
-        sentence = ["bOys", "WOMEN", "Homes", "MeN", "cARs", "aRchIvES"]
-        sentenceLowerCase = ["boys", "women", "homes", "men", "cars", "archives"]
-        for i in range(0, len(sentence)):
-            self.assertEqual(toLowerCase(sentence[i]), sentenceLowerCase[i])
+        sentence = "bOys WOMEN Homes MeN cARs aRchIvES"
+        goldenSentence = "boys women homes men cars archives"
+        tokens = tokenize(sentence)
+        newTokens = []
+        for token in tokens:
+            newTokens.append(toLowerCase(token))
+        self.assertEqual(sentenize(newTokens), goldenSentence)
 
     def test_stopwording(self):
-        sentence = ["at", "eight", "not", "on", "thursday", "morning", 
-            "Arthur", "didn't", "feel", "very", "good"]
-        sentenceStopwording = ["", "eight", "", "", "thursday", "morning", 
-            "Arthur", "", "feel", "", "good"]
-        for i in range(0, len(sentence)):
-            self.assertEqual(stopwording(sentence[i]), sentenceStopwording[i])
+        sentence = "at eight not on thursday morning Arthur didn't feel very good"
+        goldenSentence = "eight thursday morning Arthur n't feel good"
+        tokens = tokenize(sentence)
+        newTokens = []
+        for token in tokens:
+            newTokens.append(stopwording(token))
+        self.assertEqual(sentenize(newTokens), goldenSentence)
 
     def test_removePunctuationAndNumbers(self):
-        sentence = ['at', '8', "o'clock", 'on', '(', 'thursday', ')', 'morning',
-            'Arthur', 'did', "nt", 'feel', 'very', 'good', '.']
-        sentenceRemove = ['at', '', "oclock", 'on', '', 'thursday', '', 'morning',
-            'Arthur', 'did', "nt", 'feel', 'very', 'good', '']
-        for i in range(0, len(sentence)):
-            self.assertEqual(removePunctuationAndNumbers(sentence[i]), sentenceRemove[i])
+        sentence = "at 8 o'clock on (thursday) morning Arthur didn't feel very good."
+        goldenSentence = "at oclock on thursday morning Arthur did nt feel very good"
+        tokens = tokenize(sentence)
+        newTokens = []
+        for token in tokens:
+            newTokens.append(removePunctuationAndNumbers(token))
+        self.assertEqual(sentenize(newTokens), goldenSentence)
 
     def test_removeSingleChar(self):
-        sentence = ['at', '8', "o'clock", 'on', '(', 'Thursday', ')', 'morning',
-            'Arthur', 'did', "n't", 'feel', 'very', 'good', '.']
-        sentenceRemove = ['at', '', "o'clock", 'on', '', 'Thursday', '', 'morning',
-            'Arthur', 'did', "n't", 'feel', 'very', 'good', '']
-        for i in range(0, len(sentence)):
-            self.assertEqual(removeSingleChar(sentence[i]), sentenceRemove[i]) 
+        sentence = "at 8 o'clock on (Thursday) morning Arthur didn't feel very good."
+        goldenSentence = "at o'clock on Thursday morning Arthur did n't feel very good"
+        tokens = tokenize(sentence)
+        newTokens = []
+        for token in tokens:
+            newTokens.append(removeSingleChar(token))
+        self.assertEqual(sentenize(newTokens), goldenSentence) 
         
     def test_cleanSentence(self):
         sentence = ("At 8 o'clock on Thursday morning, the boys and " +
@@ -100,7 +110,7 @@ class TestCleanerFunctions(unittest.TestCase):
             "	@baloji you were so awesome, it was amazing and you were" + 
             " shining like the star that you are...MERCI!! #baloji i_i")
         goldenLine = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272" + 
-            "	71610408	awesome amazing shining like star" + 
+            "	71610408	awesome amaze shin like star" + 
             " merci baloji	")
         newLine = processLine(line)
         self.assertEqual(newLine, goldenLine)
@@ -116,4 +126,5 @@ class TestCleanerFunctions(unittest.TestCase):
         stopwordsPath = "./etc/stopwords_en.txt"
         cleaner(path, path + ".clean", stopwordsPath)
         self.assertTrue(isfile(path + ".clean"))
+
 
