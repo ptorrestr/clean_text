@@ -1,3 +1,71 @@
+commit 65ec5f5b98ad9a9414b5078783cea7293eb17c2e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:51:15 2013 +0000
+
+    new version 0.0.6
+
+commit e492795c3780efb6b520ad4cfeeb9a58151bc242
+Merge: 2858bda 267188d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:41:16 2013 +0000
+
+    fix mergin problems
+
+commit 267188d3f183d98a9bb97053935d152ea82cb98e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:30:01 2013 +0000
+
+    Change stemming algorithm to WordNet
+
+commit 2858bdaa0a31aa194005d7b0b734b02de6e87da0
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 18:22:49 2013 +0000
+
+    fix switched argument bug in processFile function
+
+commit 74825d86aab495c7e94a7c82c45f22afb9da41f1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:42:58 2013 +0000
+
+    new version 0.0.4 Fix some bugs
+
+commit 76b255f323002b688ead44323d2e81601b25209e
+Merge: 6be6ef1 1894807
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:27:14 2013 +0000
+
+    Merge branch 'master' of https://github.com/ptorrestr/clean_text
+
+commit 6be6ef1f25f8d05ad67f044184ca604a7cf76dd9
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:25:32 2013 +0000
+
+    add new status and the end of the line
+
+commit 1894807c654d45c1c614489a6c0d8b3141f2448a
+Author: ptorrestr <pablo.torres.t@gmail.com>
+Date:   Wed Nov 13 17:07:27 2013 +0000
+
+    Update README.md
+
+commit cf5a47089a31ff63e705b68f1ee155b55a307430
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:06:05 2013 +0000
+
+    new version 0.0.3
+
+commit dbbc70703708177e1d58506dae8237e7594b41df
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:04:01 2013 +0000
+
+    update setup.py
+
+commit 7243fdc7cf96b00cea4c9937add405def2bdb1d8
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 16:46:40 2013 +0000
+
+    update CHANGES file
+
 commit 79cb1b3d288e08a79d8b5879fbe6fe8b61e25c61
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Wed Nov 13 16:46:14 2013 +0000
