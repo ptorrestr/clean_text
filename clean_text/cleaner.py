@@ -1,4 +1,5 @@
 import nltk
+from nltk.corpus import wordnet
 import re
 import sys
 import argparse
@@ -23,15 +24,22 @@ def removeUserMention(sentence):
     return users.sub("", sentence)
 
 def tokenize(sentence):
-    return nltk.word_tokenize(sentence)
+    text = nltk.word_tokenize(sentence)
+    return nltk.pos_tag(text)
 
 def sentenize(tokens, space = " "):
     if len(tokens) == 0:
         return ""
+    first = True
     sentence = ""
-    for i in range(0, len(tokens)-1):
-        sentence += tokens[i] + space
-    return sentence + tokens[len(tokens) - 1 ]
+    for i in range(0, len(tokens)):
+        if tokens[i][0] != "":
+            if first:
+                first = False
+                sentence = tokens[i][0]
+            else:
+                sentence += space + tokens[i][0]
+    return sentence
 
 def setenceCleaner(tokens, args):
     cleanTokens = []
@@ -39,52 +47,68 @@ def setenceCleaner(tokens, args):
         tmpToken = token
         for i in range(0, len(args)):
             tmpToken = args[i](tmpToken)
-            if tmpToken == "":
+            if tmpToken[0] == "":
                 break
-        if not tmpToken == "":
+        if not tmpToken[0] == "":
             cleanTokens.append(tmpToken)
     return cleanTokens
 
 def stemming(token):
     lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
-    newToken = lmtzr.lemmatize(token)
-    if newToken == "n't":
-        newToken = "not"
-    return newToken
+    trans = getWordnetPos(token[1])
+    newToken = token[0]
+    if not trans == "":
+        newToken = lmtzr.lemmatize(newToken, trans)
+        if newToken == "n't":
+            newToken = "not"
+    return (newToken, token[1])
+
+def getWordnetPos(tag):
+    if tag.startswith('J'):
+        return wordnet.ADJ
+    elif tag.startswith('V'):
+        return wordnet.VERB
+    elif tag.startswith('N'):
+        return wordnet.NOUN
+    elif tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return ''
 
 def toLowerCase(token):
-    return token.lower()
+    return (token[0].lower(), token[1])
 
 def stopwording(token, language = 'english'):
-    if token in nltk.corpus.stopwords.words(language):
-        return ""
-    if token in data.stopwords():
-        return ""
-    return token
+    if token[0] in nltk.corpus.stopwords.words(language):
+        return ("", token[1])
+    if token[0] in clean_text.data.stopwords():
+        return ("", token[1])
+    return (token[0], token[1])
 
 def removePunctuationAndNumbers(token):
     punctuation = re.compile(r'[\W|0-9|_]')
-    return punctuation.sub("", token)
+    return ( punctuation.sub("", token[0]), token[1])
 
 def removeSingleChar(token, excepts = ["#"]):
-    if len(token) > 1 or token in excepts:
-        return token
-    return ""
+    if len(token[0]) > 1 or token[0] in excepts:
+        return (token[0], token[1])
+    return ("", token[1])
 
 def removeDoubleChar(token, excepts = []):
-    if len(token) > 2 or token in excepts:
-        return token
-    return ""
+    if len(token[0]) > 2 or token[0] in excepts:
+        return (token[0], token[1])
+    return ("", token[1])
 
 def mergeHash(tokens):
     mergeTokens = []
     merge = False
     for token in tokens:
-        if token == "#" or token == "@":
+        if token[0] == "#" or token[0] == "@":
             merge = True
-            save = token
+            save = token[0]
         elif merge:
-            mergeTokens.append(save + token)
+            newToken = (save + token, token[1])
+            mergeTokens.append(newToken)
             merge = False
         else:
             mergeTokens.append(token)
@@ -94,7 +118,7 @@ def cleanSentence(sentence):
     # Pre clean
     sentence = removeUrl(sentence)
     sentence = removeUserMention(sentence)
-    # Tokenize
+    # Tokenize and pos
     tokens = tokenize(sentence)
     # Clean sentence
     newTokens = setenceCleaner(tokens, [stemming, toLowerCase,
