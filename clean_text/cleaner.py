@@ -81,7 +81,7 @@ def toLowerCase(token):
 def stopwording(token, language = 'english'):
     if token[0] in nltk.corpus.stopwords.words(language):
         return ("", token[1])
-    if token[0] in clean_text.data.stopwords():
+    if token[0] in data.stopwords():
         return ("", token[1])
     return (token[0], token[1])
 

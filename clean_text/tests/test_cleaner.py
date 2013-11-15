@@ -112,7 +112,7 @@ class TestCleanerFunctions(unittest.TestCase):
         goldenLine = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272" + 
             "	71610408	@baloji you were so awesome, it was amazing and" +
             " you were shining like the star that you are...MERCI!! #baloji i_i" +
-            "	awesome amazing shining like star merci baloji")
+            "	awesome amaze shin like star merci baloji")
         newLine = processLine(line)
         self.assertEqual(newLine, goldenLine)
 
