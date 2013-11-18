@@ -1,3 +1,21 @@
+commit d66216b3d242ac3fcfb092392cda1962cc5d4d02
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Nov 18 16:42:09 2013 +0000
+
+    fix stopword file bugs
+
+commit ecc27e476fbb46c17d3aef4dbdae17ba8c4aff12
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 14:47:18 2013 +0000
+
+    remove t2db_objects as dependency
+
+commit 79aca9ae0e73548f9ded07d319a73e4e1d121eca
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:51:38 2013 +0000
+
+    update CHANGES files to 0.0.6
+
 commit 65ec5f5b98ad9a9414b5078783cea7293eb17c2e
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Fri Nov 15 13:51:15 2013 +0000
