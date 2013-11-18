@@ -1,6 +1,8 @@
 import unittest
 
 from os.path import isfile
+from os import popen
+from os import remove
 
 from clean_text.cleaner import removeUrl
 from clean_text.cleaner import removeUserMention
@@ -18,6 +20,13 @@ from clean_text.cleaner import processFile
 from clean_text.cleaner import cleaner
 from clean_text.data import setStopwordsPath
 from clean_text.globals import init
+
+""" Count the word in the file given"""
+def wordCount(word, file_):
+    p = popen("cat " + file_ + " | awk -F '\t' '{print $6}' | grep -w " + word + " | wc -l")
+    # Get result and cast it
+    pOut = p.read()
+    return int(pOut)
 
 class TestCleanerFunctions(unittest.TestCase):
     def setUp(self):
@@ -112,7 +121,7 @@ class TestCleanerFunctions(unittest.TestCase):
         goldenLine = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272" + 
             "	71610408	@baloji you were so awesome, it was amazing and" +
             " you were shining like the star that you are...MERCI!! #baloji i_i" +
-            "	awesome amaze shin like star merci baloji")
+            "	awesome amaze shin star merci baloji")
         newLine = processLine(line)
         self.assertEqual(newLine, goldenLine)
 
@@ -124,7 +133,13 @@ class TestCleanerFunctions(unittest.TestCase):
 
     def test_cleaner(self):
         path = "./etc/example.tsv"
+        outputPath = path + ".clean"
+        # If file is created, remove it
+        if isfile(outputPath):
+            remove(outputPath)
         stopwordsPath = "./etc/stopwords_en.txt"
-        cleaner(path, path + ".clean", stopwordsPath)
-        self.assertTrue(isfile(path + ".clean"))
+        cleaner(path, outputPath, stopwordsPath)
+        self.assertTrue(isfile(outputPath))
+        self.assertEqual(wordCount(" to ", outputPath), 0)
+        self.assertEqual(wordCount(" photo ", outputPath), 0)
 
