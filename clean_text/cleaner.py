@@ -4,8 +4,22 @@ import re
 import sys
 import argparse
 
+import logging
+
 from clean_text import data
 from clean_text import globals
+from clean_text import setup_logging
+
+# Get log config file
+
+logger = logging.getLogger()
+
+class EmptyOutput(Exception):
+  def __init__(self, value):
+    self.value = value
+
+  def __str__(self):
+    return repr(self.value)
 
 def removeUrl(sentence):
     urls = re.compile(
@@ -129,12 +143,15 @@ def cleanSentence(sentence):
     mergeTokens = mergeHash(newTokens)
     return sentenize(mergeTokens)
 
+""" If the cleanSentence output is empty, the completly line is deleted"""
 def processLine(line, criteria = "\t", position = 3):
     columns = line.split(criteria)
     if position >= len(columns):
         raise Exception("Line only have " + str(len(columns)) + " columns. " + 
             "(Asking for " + str(position) + ")")
     newStatus = cleanSentence(columns[position])
+    if newStatus == "":
+        raise EmptyOutput("Original text: " + columns[position] )
     newLine = ""
     for column in columns:
         newLine += column + criteria
@@ -142,22 +159,26 @@ def processLine(line, criteria = "\t", position = 3):
     newLine += newStatus
     return newLine
 
-def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPosition = 3):
+def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPosition = 4):
     lines = fullText.split(criteria)
     newText = ""
     countLine = 0
+    countLineOutput = 0
     for line in lines:
         try:
             if line == "":
-                print("Warning: Empty field at line: " + str(countLine))
+                log.debug("Warning: Empty field at line: " + str(countLine))
                 continue
             newLine = processLine(line, criteriaForLine, columnPosition)
             newText += newLine + criteria
+            countLineOutput += 1
+        except EmptyOutput as e:
+            logger.info("Empty output found at line: " + str(countLine) + ", " + str(e))
         except Exception as e:
-            print("Failed at line: " + str(countLine) + ", " + str(e))
+            logger.error("Failed at line: " + str(countLine) + ", " + str(e))
             raise
         countLine += 1
-    return newText
+    return [newText, countLine, countLineOutput]
 
 def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
         criteriaForLine = "\t", columnPosition = 4):
@@ -167,7 +188,9 @@ def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n",
     #Read input file
     with open(path, 'r') as contentFile:
         fullText = contentFile.read()
-    newText = processFile(fullText, criteriaForFile, criteriaForLine, columnPosition)
+    [newText, countLine, countLineOutput] = processFile(fullText, 
+        criteriaForFile, criteriaForLine, columnPosition)
+    logger.info("Total lines = " + str(countLine) + ", output lines = " + str(countLineOutput))
     with open(outputPath, 'w') as contentFile:
         contentFile.write(newText)
 
@@ -206,9 +229,12 @@ def main():
         type = str,
         required = False)
     args = parser.parse_args()
-    #try:
-    cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp)
-    #except Exception as e:
-    #    print("Error found: " + str(e))
-    #    sys.exit(2)
+    try:
+        setup_logging()
+        cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp)
+    except Exception as e:
+        logger.error("Error found: " + str(e))
+        logger.shutdown()
+        sys.exit(2)
+    logger.shutdown()
     sys.exit(0)
