@@ -167,7 +167,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
     for line in lines:
         try:
             if line == "":
-                log.debug("Warning: Empty field at line: " + str(countLine))
+                logger.warn("Warning: Empty field at line: " + str(countLine))
                 continue
             newLine = processLine(line, criteriaForLine, columnPosition)
             newText += newLine + criteria
@@ -234,7 +234,5 @@ def main():
         cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp)
     except Exception as e:
         logger.error("Error found: " + str(e))
-        logger.shutdown()
         sys.exit(2)
-    logger.shutdown()
     sys.exit(0)
