@@ -19,6 +19,7 @@ setup(
     packages=['clean_text', 'clean_text.tests'],
     install_requires=[
         'nltk >= 2.0.4',
+        'numpy >= 1.8',
     ],
     entry_points = {
         'console_scripts':[
