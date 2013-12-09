@@ -166,6 +166,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
     countLineOutput = 0
     for line in lines:
         try:
+            countLine += 1
             if line == "":
                 logger.warn("Warning: Empty field at line: " + str(countLine))
                 continue
@@ -177,7 +178,6 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
         except Exception as e:
             logger.error("Failed at line: " + str(countLine) + ", " + str(e))
             raise
-        countLine += 1
     return [newText, countLine, countLineOutput]
 
 def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
