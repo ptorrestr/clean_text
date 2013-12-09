@@ -125,6 +125,28 @@ class TestCleanerFunctions(unittest.TestCase):
         newLine = processLine(line)
         self.assertEqual(newLine, goldenLine)
 
+    def test_processLineOrder(self):
+        line = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272	71610408	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+        goldenLine0 = ("awesome amaze shin star merci baloji	Sun Aug 07 01:28:32 IST 2011	100000335933878272	71610408	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+        goldenLine1 = ("Sun Aug 07 01:28:32 IST 2011	awesome amaze shin star merci baloji	100000335933878272	71610408	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+	goldenLine2 = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272	awesome amaze shin star merci baloji	71610408	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+	goldenLine3 = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272	71610408	awesome amaze shin star merci baloji	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+	goldenLine4 = ("Sun Aug 07 01:28:32 IST 2011	100000335933878272	71610408	@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i	awesome amaze shin star merci baloji")
+        newLine0 = processLine(line, "\t", 3, 0)
+        newLine1 = processLine(line, "\t", 3, 1)
+        newLine2 = processLine(line, "\t", 3, 2)
+        newLine3 = processLine(line, "\t", 3, 3)
+        newLine4 = processLine(line, "\t", 3, 4)
+        self.assertEqual(newLine0, goldenLine0)
+        self.assertEqual(newLine1, goldenLine1)
+        self.assertEqual(newLine2, goldenLine2)
+        self.assertEqual(newLine3, goldenLine3)
+        self.assertEqual(newLine4, goldenLine4)
+
+    def test_notValidProcessLineOrder(self):
+        line = ("Sun Aug 07 01:28:32 IST 2011   100000335933878272      71610408        @baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i")
+        self.assertRaises(Exception, processLine, line, "\t", 3, 5)
+
     def test_processFile(self):
         path = "./etc/example.tsv"
         with open(path, 'r') as contentFile:

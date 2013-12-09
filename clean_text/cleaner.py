@@ -144,7 +144,7 @@ def cleanSentence(sentence):
     return sentenize(mergeTokens)
 
 """ If the cleanSentence output is empty, the completly line is deleted"""
-def processLine(line, criteria = "\t", position = 3):
+def processLine(line, criteria = "\t", position = 3, newposition = 4):
     columns = line.split(criteria)
     if position >= len(columns):
         raise Exception("Line only have " + str(len(columns)) + " columns. " + 
@@ -153,13 +153,24 @@ def processLine(line, criteria = "\t", position = 3):
     if newStatus == "":
         raise EmptyOutput("Original text: " + columns[position] )
     newLine = ""
-    for column in columns:
-        newLine += column + criteria
-    # Add clean text in the end of the line (create a new field)
+    # Add the new line in the position given
+    if newposition > len(columns):
+        raise Exception("New position '" + str(newposition) + "' is not valid (max = " + 
+            str(len(columns) + 1) + " )")
+    for i in range(0, newposition):
+        newLine += columns[i] + criteria
+    # Add clean text in this position, with no criteria
     newLine += newStatus
+    # if the new position is not the last:
+    if not newposition  == len(columns):
+        newLine += criteria # add criteria for the next line
+        for i in range(newposition, len(columns) - 1):
+            newLine += columns[i] + criteria
+        #last case
+        newLine += columns[len(columns) - 1]
     return newLine
 
-def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPosition = 4):
+def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPosition = 4, newColumnPosition = 5):
     lines = fullText.split(criteria)
     newText = ""
     countLine = 0
@@ -170,7 +181,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
             if line == "":
                 logger.warn("Warning: Empty field at line: " + str(countLine))
                 continue
-            newLine = processLine(line, criteriaForLine, columnPosition)
+            newLine = processLine(line, criteriaForLine, columnPosition, newColumnPosition)
             newText += newLine + criteria
             countLineOutput += 1
         except EmptyOutput as e:
@@ -181,7 +192,7 @@ def processFile(fullText, criteria = "\n", criteriaForLine = "\t", columnPositio
     return [newText, countLine, countLineOutput]
 
 def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n", 
-        criteriaForLine = "\t", columnPosition = 4):
+        criteriaForLine = "\t", columnPosition = 4, newColumnPosition = 5):
     globals.init()
     #Set stopwords
     data.setStopwordsPath(stopwordsPath)
@@ -189,7 +200,7 @@ def cleaner(path, outputPath, stopwordsPath, criteriaForFile = "\n",
     with open(path, 'r') as contentFile:
         fullText = contentFile.read()
     [newText, countLine, countLineOutput] = processFile(fullText, 
-        criteriaForFile, criteriaForLine, columnPosition)
+        criteriaForFile, criteriaForLine, columnPosition, newColumnPosition)
     logger.info("Total lines = " + str(countLine) + ", output lines = " + str(countLineOutput))
     with open(outputPath, 'w') as contentFile:
         contentFile.write(newText)
@@ -223,6 +234,11 @@ def main():
         default = 3,
         type = int,
         required = False)
+    parser.add_argument('-np',
+        help = 'New column position in outputfile',
+        default = 4,
+        type = int,
+        required = False)
     parser.add_argument('-sw',
         help = 'Stopword file, default = None',
         default = '',
@@ -231,7 +247,7 @@ def main():
     args = parser.parse_args()
     try:
         setup_logging()
-        cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp)
+        cleaner(args.f, args.o, args.sw, args.cf, args.cl, args.cp, args.np)
     except Exception as e:
         logger.error("Error found: " + str(e))
         sys.exit(2)
