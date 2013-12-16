@@ -39,3 +39,6 @@ nosetests.xml
 
 #swp files
 *.swp
+
+#clean files
+*.clean
