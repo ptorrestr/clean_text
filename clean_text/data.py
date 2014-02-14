@@ -20,8 +20,11 @@ def stopwords():
 
 def readListFile(path):
   lines = []
-  with open(path, "r") as listFile:
-    for line in listFile:
-      if not line.startswith("#") and len(line.strip()) > 0:
-        lines.append(line.strip())
+  try:
+    with open(path, "r") as listFile:
+      for line in listFile:
+        if not line.startswith("#") and len(line.strip()) > 0:
+          lines.append(line.strip())
+  except IOError:
+    raise
   return lines

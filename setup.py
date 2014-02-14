@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='clean_text',
-    version='0.0.9',
+    version='0.0.10',
     description='Text cleaner. Remove stopwords and does stemming',
     long_description = readme(),
     classifiers=[
@@ -20,6 +20,7 @@ setup(
     install_requires=[
         'nltk >= 2.0.4',
         'numpy >= 1.8',
+        't2db_objects >= 0.5',
     ],
     entry_points = {
         'console_scripts':[
