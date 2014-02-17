@@ -33,8 +33,6 @@ class SerializerXSV(Serializer):
 
   def serializeLine(self, rawObject):
     columns = []
-    if not len(self.fields) == len(rawObject.keys()):
-      raise ColumnsNotEquivalentException("Column and fields missmatch")
     for field in self.fields:
       try:
         columns.append(rawObject[field])

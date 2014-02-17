@@ -97,14 +97,6 @@ class TestSerializerXSVClass(unittest.TestCase):
     rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170" }
     self.assertRaises(ColumnsNotEquivalentException, s.serializeLine, rawObject)
 
-  def testSerializerLineLessFields(self):
-    fields = ["date", "id", "hash"]
-    filePath = "./etc/output.tsv"
-    s = SerializerXSV(filePath, fields)
-    rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
-       , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
-    self.assertRaises(ColumnsNotEquivalentException, s.serializeLine, rawObject)
-
   def testSerializerLineMissingField(self):
     fields = ["date", "id", "hash", "user_id", "other"]
     filePath = "./etc/output.tsv"
