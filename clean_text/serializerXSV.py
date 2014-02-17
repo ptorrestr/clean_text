@@ -53,7 +53,7 @@ class SerializerXSV(Serializer):
     for rawObject in rawObjectList:
       lines.append(self.serializeLine(rawObject))
       self.count += 1
-      logger.debug("Objects serialized : " + str(self.count))
+    logger.debug("Objects serialized : " + str(self.count))
     contentFile = lines[0]
     for i in range(1, len(lines)):
       contentFile += "\n" + lines[i]

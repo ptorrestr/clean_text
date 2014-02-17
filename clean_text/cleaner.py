@@ -121,6 +121,7 @@ def cleaner(path, outputPath, confFilePath):
         raise
     #Set stopwords
     data.setStopwordsPath(config.stopwordFile)
+    logger.debug("Configuration = " + str(config.toHash()))
     #Read data from input file
     fields = config.fields 
     outFields = config.newFields 
