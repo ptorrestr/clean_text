@@ -85,26 +85,32 @@ def cleanSentence(sentence, sentenceProcList, tokenProcList):
       raise EmptyOutput("Output sentence is empty")
     return newSentence
 
-def processFile(rawObjects, config):
-    countLine = 0
+class Processor(object):
+  def __init__(self, config): 
+    self.countLine = 0
+    self.countLineOutput = 0
+    self.config = config
+
+  def processFile(self, rawObjects):
     newObjects = []
     for rawObject in rawObjects:
       try:
-        countLine += 1
-        if not config.textField in rawObject.keys():
-          raise Exception("Field '" + config.textField + "' is not found in object")
-        text = rawObject[config.textField]
-        newText = cleanSentence(text, config.sentenceProcList, config.tokenProcList)
-        rawObject[config.newTextField] = newText
+        self.countLine += 1
+        if not self.config.textField in rawObject.keys():
+          raise Exception("Field '" + self.config.textField + "' is not found in object")
+        text = rawObject[self.config.textField]
+        newText = cleanSentence(text, self.config.sentenceProcList, self.config.tokenProcList)
+        rawObject[self.config.newTextField] = newText
         newObjects.append(rawObject)
+        self.countLineOutput += 1
       except EmptyInput as e:
-        logger.info("Empty input found at line: " + str(countLine) + ", " + str(e))
+        logger.info("Empty input found at line: " + str(self.countLine) + ", " + str(e))
       except EmptyOutput as e:
-        logger.info("Empty output found at line: " + str(countLine) + ", " + str(e))
+        logger.info("Empty output found at line: " + str(self.countLine) + ", " + str(e))
       except Exception as e:
-        logger.error("Failed at line: " + str(countLine) + ", " + str(e))
+        logger.error("Failed at line: " + str(self.countLine) + ", " + str(e))
         raise
-    return [newObjects, countLine]
+    return [newObjects, self.countLine, self.countLineOutput]
 
 def cleaner(path, outputPath, confFilePath):
     globals.init()
@@ -120,13 +126,15 @@ def cleaner(path, outputPath, confFilePath):
     outFields = config.newFields 
     p = ParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
     s = SerializerXSV(outputPath, outFields)
+    proc = Processor(config)
     while True:
       rawObjects = p.nextObjects()
       if not rawObjects:
         break
-      [newObjects, countLine] = processFile(rawObjects, config)
-      logger.info("Total lines = " + str(countLine) )
+      [newObjects, countLine, countLineOutput] = proc.processFile(rawObjects)
+      logger.info("Lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
       s.pushObjects(newObjects)
+    logger.info("Total lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
 
 def main():
     ## Parser input arguments
@@ -152,5 +160,5 @@ def main():
         cleaner(args.f, args.o, args.c)
     except Exception as e:
         logger.error("Error found: " + str(e))
-        sys.exit(2)
+        sys.exit(1)
     sys.exit(0)

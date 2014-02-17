@@ -9,7 +9,7 @@ from clean_text.cleaner import tokenCleaner
 from clean_text.cleaner import tokenize
 from clean_text.cleaner import sentenize
 from clean_text.cleaner import cleanSentence
-from clean_text.cleaner import processFile
+from clean_text.cleaner import Processor 
 from clean_text.cleaner import cleaner
 from clean_text.config import getConfig
 from clean_text.data import setStopwordsPath
@@ -81,7 +81,8 @@ class TestCleanerFunctions(unittest.TestCase):
       }
     rawObjects = [rawObject]
     config = getConfig("", confFields, confDefault)
-    newRawObject = processFile(rawObjects, config)
+    proc = Processor(config)
+    newRawObject = proc.processFile(rawObjects)
     self.assertEqual(rawObject, goldenRawObject)
 
   def test_notValidProcessFile(self):
@@ -94,7 +95,8 @@ class TestCleanerFunctions(unittest.TestCase):
     rawObjects = [rawObject]
     config = getConfig("", confFields, confDefault)
     config.textField = "otherfield"
-    self.assertRaises(Exception, processFile, rawObjects, config)
+    proc = Processor(config)
+    self.assertRaises(Exception, proc.processFile, rawObjects)
 
   def test_cleaner(self):
     path = "./etc/example.tsv"
