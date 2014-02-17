@@ -76,7 +76,7 @@ class ParserXSV(Parser):
     logger.debug("Close reader")
  
   def parseLine(self, line, lineNum):
-    columns = line.split(self.criteria)
+    columns = line.strip().split(self.criteria)
     if len(self.fields) > len(columns):
       raise ColumnsNotEquivalentException("Line " + str(lineNum) + ": Column missing, fields = " 
         + str(len(self.fields)) + ", columns = " + str(len(columns)))
@@ -100,7 +100,7 @@ class ParserXSV(Parser):
         logger.warn("Empty line found at: " + str(countLine))
       rawObject = self.parseLine(line, self.count)
       rawObjectList.append(rawObject)
-    logger.debug("Objects read = " + str(len(rawObject)))
+    logger.debug("Objects read = " + str(len(rawObjectList)))
     return rawObjectList
 
 # Exceptions

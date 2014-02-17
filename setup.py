@@ -6,7 +6,7 @@ def readme():
 
 setup(
     name='clean_text',
-    version='0.0.16',
+    version='0.0.17',
     description='Text cleaner. Remove stopwords and does stemming',
     long_description = readme(),
     classifiers=[
