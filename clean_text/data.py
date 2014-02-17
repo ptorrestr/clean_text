@@ -30,10 +30,8 @@ def readListFile(path):
   return lines
 
 confFields = [
-  {"name":"splitCriteriaFile", "kind":"mandatory", "type":str},
+  {"name":"bufferSize", "kind":"mandatory", "type":int},
   {"name":"splitCriteriaLine", "kind":"mandatory", "type":str},
-  {"name":"textColumnPosition", "kind":"mandatory", "type":int},
-  {"name":"newTextColumnPosition", "kind":"mandatory", "type":int},
   {"name":"stopwordFile", "kind":"mandatory", "type":str},
   {"name":"sentenceProcList", "kind":"mandatory", "type":list},
   {"name":"tokenProcList", "kind":"mandatory", "type":list},
@@ -44,10 +42,8 @@ confFields = [
   ]
 
 confDefault = {
-  "splitCriteriaFile":"\n",
+  "bufferSize":200,
   "splitCriteriaLine":"\t",
-  "textColumnPosition":2,
-  "newTextColumnPosition":3,
   "stopwordFile":"",
   "sentenceProcList":"removeUrl removeUserMention",
   "tokenProcList":"stemming toLowerCase removePunctuationAndNumbers stopwording removeSingleChar removeDoubleChar",

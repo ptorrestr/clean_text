@@ -3,11 +3,7 @@ import sys
 import argparse
 import logging
 
-from t2db_objects import objects
-
 from clean_text.config import getConfig
-from clean_text.utilities import formatHash
-from clean_text.utilities import readConfigFile
 from clean_text.serializerXSV import ParserXSV
 from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
@@ -117,13 +113,12 @@ def cleaner(path, outputPath, confFilePath):
     except Exception as e:
         logger.error("No configuration found")
         raise
-
     #Set stopwords
     data.setStopwordsPath(config.stopwordFile)
     #Read data from input file
     fields = config.fields 
     outFields = config.newFields 
-    p = ParserXSV(fields, path, 200)
+    p = ParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
     s = SerializerXSV(outputPath, outFields)
     while True:
       rawObjects = p.nextObjects()
