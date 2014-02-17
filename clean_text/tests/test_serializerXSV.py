@@ -79,12 +79,13 @@ class TestSerializerXSVClass(unittest.TestCase):
   def testInit(self):
     fields = ["date", "id", "hash", "user_id", "status"]
     filePath = "./etc/output.tsv"
-    s = SerializerXSV(filePath, fields)
+    s = SerializerXSV(filePath, True, fields)
+    self.assertFalse(isfile(filePath))
 
   def testSerializeLine(self):
     fields = ["date", "id", "hash", "user_id", "status"]
     filePath = "./etc/output.tsv"
-    s = SerializerXSV(filePath, fields)
+    s = SerializerXSV(filePath, True, fields)
     rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
       , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
     goldenLine = "2011-08-07T05:57:45Z\t100068086551543808\t18974170\t293331739\t@ShesDopeTho good myself.."
@@ -93,14 +94,14 @@ class TestSerializerXSVClass(unittest.TestCase):
   def testSerializerLineLessColumns(self):
     fields = ["date", "id", "hash", "user_id", "status"]
     filePath = "./etc/output.tsv"
-    s = SerializerXSV(filePath, fields)
+    s = SerializerXSV(filePath, True, fields)
     rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170" }
     self.assertRaises(ColumnsNotEquivalentException, s.serializeLine, rawObject)
 
   def testSerializerLineMissingField(self):
     fields = ["date", "id", "hash", "user_id", "other"]
     filePath = "./etc/output.tsv"
-    s = SerializerXSV(filePath, fields)
+    s = SerializerXSV(filePath, True, fields)
     rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
        , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
     self.assertRaises(ColumnsNotEquivalentException, s.serializeLine, rawObject)
@@ -110,7 +111,7 @@ class TestSerializerXSVClass(unittest.TestCase):
     filePath = "./etc/output.tsv"
     if isfile(filePath):
       remove(filePath)
-    s = SerializerXSV(filePath, fields)
+    s = SerializerXSV(filePath, True, fields)
     rawObject1 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
        , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
     rawObject2 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"

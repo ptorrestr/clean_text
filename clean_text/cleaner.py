@@ -125,7 +125,7 @@ def cleaner(path, outputPath, confFilePath):
     fields = config.fields 
     outFields = config.newFields 
     p = ParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
-    s = SerializerXSV(outputPath, outFields)
+    s = SerializerXSV(outputPath, config.overWriteOutputFile, outFields)
     proc = Processor(config)
     while True:
       rawObjects = p.nextObjects()

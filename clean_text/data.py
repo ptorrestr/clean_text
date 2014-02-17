@@ -30,6 +30,7 @@ def readListFile(path):
   return lines
 
 confFields = [
+  {"name":"overWriteOutputFile", "kind":"mandatory", "type":bool},
   {"name":"bufferSize", "kind":"mandatory", "type":int},
   {"name":"splitCriteriaLine", "kind":"mandatory", "type":str},
   {"name":"stopwordFile", "kind":"mandatory", "type":str},
@@ -42,6 +43,7 @@ confFields = [
   ]
 
 confDefault = {
+  "overWriteOutputFile":True,
   "bufferSize":200,
   "splitCriteriaLine":"\t",
   "stopwordFile":"",

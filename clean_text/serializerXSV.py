@@ -1,5 +1,7 @@
 from itertools import islice
 import logging
+from os import remove
+from os.path import isfile
 
 logger = logging.getLogger()
 
@@ -25,11 +27,13 @@ class Serializer(object):
   pass
 
 class SerializerXSV(Serializer): 
-  def __init__(self, filePath, fields, criteria = "\t"):
+  def __init__(self, filePath, overwrite,  fields, criteria = "\t"):
     self.fields = fields
     self.criteria = criteria
     self.filePath = filePath
-    self.count = 0 
+    self.count = 0
+    if overwrite and isfile(filePath):
+      remove(filePath)
 
   def serializeLine(self, rawObject):
     columns = []
