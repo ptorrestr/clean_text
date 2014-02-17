@@ -80,7 +80,24 @@ class TestSerializerXSVClass(unittest.TestCase):
     fields = ["date", "id", "hash", "user_id", "status"]
     filePath = "./etc/output.tsv"
     s = SerializerXSV(filePath, True, fields)
+    rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+      , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    s.pushObjects([rawObject])
+    self.assertTrue(isfile(filePath))
+    s = SerializerXSV(filePath, True, fields)
     self.assertFalse(isfile(filePath))
+
+  
+  def testInitNotOverwrite(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/output.tsv"
+    s = SerializerXSV(filePath, True, fields)
+    rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+      , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    s.pushObjects([rawObject])
+    self.assertTrue(isfile(filePath))
+    s = SerializerXSV(filePath, False, fields)
+    self.assertTrue(isfile(filePath))
 
   def testSerializeLine(self):
     fields = ["date", "id", "hash", "user_id", "status"]
