@@ -31,6 +31,7 @@ class SerializerXSV(Serializer):
     self.fields = fields
     self.criteria = criteria
     self.filePath = filePath
+    self.overwrite = overwrite
     self.count = 0
     if overwrite and isfile(filePath):
       logger.debug("Overwriting file: " + filePath)
@@ -51,14 +52,18 @@ class SerializerXSV(Serializer):
   def pushObjects(self, rawObjectList):
     lines = []
     for rawObject in rawObjectList:
-      lines.append(self.serializeLine(rawObject))
-      self.count += 1
-    logger.debug("Objects serialized : " + str(self.count))
-    contentFile = lines[0]
+      lines.append(self.serializeLine(rawObject))      
+    logger.debug("Objects serialized : " + str(len(rawObjectList)))
+    #If they are already data before, add a new line
+    if self.count == 0 and self.overwrite:
+      contentFile = lines[0]
+    else:
+      contentFile = "\n" + lines[0]
     for i in range(1, len(lines)):
       contentFile += "\n" + lines[i]
     append(self.filePath, contentFile)
-    logger.debug("Lines added : " + str(len(lines)))
+    self.count += len(lines)
+    logger.debug("Current lines output : " + str(self.count))
      
 
 class Parser(object):
