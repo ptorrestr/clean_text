@@ -28,3 +28,31 @@ def readListFile(path):
   except IOError:
     raise
   return lines
+
+confFields = [
+  {"name":"splitCriteriaFile", "kind":"mandatory", "type":str},
+  {"name":"splitCriteriaLine", "kind":"mandatory", "type":str},
+  {"name":"textColumnPosition", "kind":"mandatory", "type":int},
+  {"name":"newTextColumnPosition", "kind":"mandatory", "type":int},
+  {"name":"stopwordFile", "kind":"mandatory", "type":str},
+  {"name":"sentenceProcList", "kind":"mandatory", "type":list},
+  {"name":"tokenProcList", "kind":"mandatory", "type":list},
+  {"name":"fields", "kind":"mandatory", "type":list},
+  {"name":"textField", "kind":"mandatory", "type":str},
+  {"name":"newFields", "kind":"mandatory", "type":list},
+  {"name":"newTextField", "kind":"mandatory", "type":str},
+  ]
+
+confDefault = {
+  "splitCriteriaFile":"\n",
+  "splitCriteriaLine":"\t",
+  "textColumnPosition":2,
+  "newTextColumnPosition":3,
+  "stopwordFile":"",
+  "sentenceProcList":"removeUrl removeUserMention",
+  "tokenProcList":"stemming toLowerCase removePunctuationAndNumbers stopwording removeSingleChar removeDoubleChar",
+  "fields":"date id hash user_id status",
+  "textField":"status",
+  "newFields":"date id hash user_id status status_clean",
+  "newTextField":"status_clean",
+  }

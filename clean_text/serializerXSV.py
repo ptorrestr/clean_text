@@ -39,7 +39,7 @@ class SerializerXSV(Serializer):
       try:
         columns.append(rawObject[field])
       except Exception as e:
-        raise ColumnsNotEquivalentException("Field missing: " + field)
+        raise ColumnsNotEquivalentException("Field missing: " + field + " obj = " + str(rawObject))
     line = columns[0]
     for i in range(1, len(columns)):
       line += self.criteria + columns[i]
