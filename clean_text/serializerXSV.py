@@ -33,6 +33,7 @@ class SerializerXSV(Serializer):
     self.filePath = filePath
     self.count = 0
     if overwrite and isfile(filePath):
+      logger.debug("Overwriting file: " + filePath)
       remove(filePath)
 
   def serializeLine(self, rawObject):
@@ -51,11 +52,13 @@ class SerializerXSV(Serializer):
     lines = []
     for rawObject in rawObjectList:
       lines.append(self.serializeLine(rawObject))
-      self.count += self.count
+      self.count += 1
+      logger.debug("Objects serialized : " + str(self.count))
     contentFile = lines[0]
     for i in range(1, len(lines)):
       contentFile += "\n" + lines[i]
     append(self.filePath, contentFile)
+    logger.debug("Lines added : " + str(len(lines)))
      
 
 class Parser(object):
@@ -70,6 +73,7 @@ class ParserXSV(Parser):
 
   def close(self):
     self.reader.close()
+    logger.debug("Close reader")
  
   def parseLine(self, line, lineNum):
     columns = line.split(self.criteria)
@@ -96,6 +100,7 @@ class ParserXSV(Parser):
         logger.warn("Empty line found at: " + str(countLine))
       rawObject = self.parseLine(line, self.count)
       rawObjectList.append(rawObject)
+    logger.debug("Objects read = " + str(len(rawObject)))
     return rawObjectList
 
 # Exceptions
