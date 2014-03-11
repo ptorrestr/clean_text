@@ -1,22 +1,22 @@
-import globals
+from clean_text import dataglobal
 
 def setStopwordsPath(stopwordsPath):
-  globals.list["stopwordsPath"] = stopwordsPath
+  dataglobal.list["stopwordsPath"] = stopwordsPath
 
 def stopwords():
-  stopwordsPath = globals.list["stopwordsPath"]
-  stopwordsAlreadyUploaded = globals.list["stopwordsAlreadyUploaded"]
+  stopwordsPath = dataglobal.list["stopwordsPath"]
+  stopwordsAlreadyUploaded = dataglobal.list["stopwordsAlreadyUploaded"]
 
   # Is chacheStopword empty?
   if not stopwordsAlreadyUploaded:
     # Has the user set a path for stopwords?
     if not stopwordsPath == '':
       # load stopwords
-      globals.list["stopwords"] = readListFile(stopwordsPath)
+      dataglobal.list["stopwords"] = readListFile(stopwordsPath)
     else:
-      globals.list["stopwords"] = []
-    globals.list["stopwordsAlreadyUploaded"] = True
-  return globals.list["stopwords"]
+      dataglobal.list["stopwords"] = []
+    dataglobal.list["stopwordsAlreadyUploaded"] = True
+  return dataglobal.list["stopwords"]
 
 def readListFile(path):
   lines = []

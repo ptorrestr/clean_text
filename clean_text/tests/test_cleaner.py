@@ -13,7 +13,7 @@ from clean_text.cleaner import Processor
 from clean_text.cleaner import cleaner
 from clean_text.config import getConfig
 from clean_text.data import setStopwordsPath
-from clean_text.globals import init
+from clean_text.dataglobal import init
 from clean_text.data import confFields
 from clean_text.data import confDefault
 

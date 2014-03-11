@@ -7,7 +7,7 @@ from clean_text.config import getConfig
 from clean_text.serializerXSV import ParserXSV
 from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
-from clean_text import globals
+from clean_text import dataglobal
 from clean_text import setup_logging
 from clean_text import functions
 
@@ -113,7 +113,7 @@ class Processor(object):
     return [newObjects, self.countLine, self.countLineOutput]
 
 def cleaner(path, outputPath, confFilePath):
-    globals.init()
+    dataglobal.init()
     try:        
         config = getConfig(confFilePath, data.confFields, data.confDefault)
     except Exception as e:
