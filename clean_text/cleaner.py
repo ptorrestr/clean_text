@@ -8,7 +8,7 @@ from clean_text.serializerXSV import ParserXSV
 from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
 from clean_text import dataglobal
-from clean_text import setup_logging
+from clean_text.logger import setup_logging
 from clean_text import functions
 
 # Get log config file
