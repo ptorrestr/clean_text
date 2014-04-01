@@ -1,3 +1,15 @@
+commit 4cd227ce3cbc6ced01858314f0f7b9e437561ddd
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:47:03 2014 +0100
+
+    change version
+
+commit 54688336a966466eaf4a856b6c48d86345a4d847
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:43:13 2014 +0100
+
+    update CHANGES file
+
 commit 877d6569aeb06208771146d110294756e88b9f4d
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Tue Apr 1 13:34:06 2014 +0100
