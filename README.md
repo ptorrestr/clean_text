@@ -3,24 +3,39 @@ Text cleaner
 
 Remove stopwords and perform stemming
 
-You need install nltk data first
+Installation
+------------
 
+It is recomendable to use virtualenv to avoid package conflicts
+* virtualenv /SOME/PATH -p python2
+* source /SOME/PATH/bin/activate
+
+Automatically install:
+* `pip install --index-url http://10.2.16.32/simple clean_text`
+
+Manually install:
+* `git clone CLEAN_TEXT_URL`
+* `cd clean_text; python setup install`
+
+Dependencies:
+* nltk
+* numpy
+* t2db\_objects
+
+Configuration
+-------------
+You need to install NLTK data.
 `python -m nltk.downloader all`
 
-Requirements:
-------------
-* nltk
-* python2.7
+To configure this project, pleae see the configuration example file (etc/example.config)
 
-Installation procedure:
-----------------------
+Execution
+---------
+Just do
+`clean_text -c CONFIG_FILE -o OUTPUT_FILE INPUTFILE` 
 
-@DERI
+Where:
+* CONFIG\_FILE The path to the configure file
+* OUTPUT\_FILE The path to the output file (if it doesn't exist, it will be created)
+* INPUT\_FILE The path to the input file
 
-* `pip install --index-url 10.2.16.32:7001 clean_text`
-
-Outside
-
-* `git clone https://github.com/ptorrestr/clean_text`
-* `python setup.py install`
-* `python setup.py test (optionally)`

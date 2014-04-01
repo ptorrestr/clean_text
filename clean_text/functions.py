@@ -91,3 +91,19 @@ def removeDoubleChar(token, excepts = []):
   if lengthToken == 2 and token[0] not in excepts:
     return ("", token[1])
   return (token[0], token[1])
+
+# Determine if is necesary? Unittest missing.
+def mergeHash(tokens):
+  mergeTokens = []
+  merge = False
+  for token in tokens:
+    if token[0] == "#" or token[0] == "@":
+      merge = True
+      save = token[0]
+    elif merge:
+      newToken = (save + token, token[1])
+      mergeTokens.append(newToken)
+      merge = False
+    else:
+      mergeTokens.append(token)
+  return mergeTokens

@@ -3,13 +3,12 @@ import sys
 import argparse
 import logging
 
-from t2db_objects import objects
-
-from clean_text.utilities import formatHash
-from clean_text.utilities import readConfigFile
+from clean_text.config import getConfig
+from clean_text.serializerXSV import ParserXSV
+from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
-from clean_text import globals
-from clean_text import setup_logging
+from clean_text import dataglobal
+from clean_text.logger import setup_logging
 from clean_text import functions
 
 # Get log config file
@@ -23,6 +22,12 @@ class EmptyOutput(Exception):
   def __str__(self):
     return repr(self.value)
 
+class EmptyInput(Exception):
+  def __init__(self, value):
+    self.value = value
+
+  def __str__(self):
+    return repr(self.value)
 
 def sentenceCleaner(sentence, args):
     tmpSentence = sentence
@@ -65,110 +70,72 @@ def tokenCleaner(tokens, args):
             cleanTokens.append(tmpToken)
     return cleanTokens
 
-def mergeHash(tokens):
-    mergeTokens = []
-    merge = False
-    for token in tokens:
-        if token[0] == "#" or token[0] == "@":
-            merge = True
-            save = token[0]
-        elif merge:
-            newToken = (save + token, token[1])
-            mergeTokens.append(newToken)
-            merge = False
-        else:
-            mergeTokens.append(token)
-    return mergeTokens
-
 def cleanSentence(sentence, sentenceProcList, tokenProcList):
+    if sentence == "":
+      raise EmptyInput("Input sentence is empty")
     # Clean clean
     sentence = sentenceCleaner(sentence, sentenceProcList)
     # Tokenize and pos
     tokens = tokenize(sentence)
     # Clean sentence
     newTokens = tokenCleaner(tokens, tokenProcList)
-    # Post clean. Join #, and @
-    mergeTokens = mergeHash(newTokens)
-    return sentenize(mergeTokens)
+    # Post clean. 
+    newSentence = sentenize(newTokens)
+    if newSentence == "":
+      raise EmptyOutput("Output sentence is empty")
+    return newSentence
 
-""" If the cleanSentence output is empty, the completly line is deleted"""
-def processLine(line, sentenceProcList, tokenProcList, criteria = "\t", position = 3, newposition = 4):
-    columns = line.split(criteria)
-    if position >= len(columns):
-        raise Exception("Line only have " + str(len(columns)) + " columns. " + 
-            "(Asking for " + str(position) + ", criteriaLine = " + criteria  + " )")
-    newStatus = cleanSentence(columns[position], sentenceProcList, tokenProcList)
-    if newStatus == "":
-        raise EmptyOutput("Original text: " + columns[position] )
-    newLine = ""
-    # Add the new line in the position given
-    if newposition > len(columns):
-        raise Exception("New position '" + str(newposition) + "' is not valid (max = " + 
-            str(len(columns) + 1) + " )")
-    for i in range(0, newposition):
-        newLine += columns[i] + criteria
-    # Add clean text in this position, with no criteria
-    newLine += newStatus
-    # if the new position is not the last:
-    if not newposition  == len(columns):
-        newLine += criteria # add criteria for the next line
-        for i in range(newposition, len(columns) - 1):
-            newLine += columns[i] + criteria
-        #last case
-        newLine += columns[len(columns) - 1]
-    return newLine
+class Processor(object):
+  def __init__(self, config): 
+    self.countLine = 0
+    self.countLineOutput = 0
+    self.config = config
 
-def processFile(fullText, config):
-    lines = fullText.split(config.splitCriteriaFile)
-    newText = ""
-    countLine = 0
-    countLineOutput = 0
-    for line in lines:
-        try:
-            countLine += 1
-            if line == "":
-                logger.warn("Warning: Empty field at line: " + str(countLine))
-                continue
-            newLine = processLine(line, config.sentenceProcList, 
-                config.tokenProcList, config.splitCriteriaLine, 
-                config.textColumnPosition, config.newTextColumnPosition)
-            newText += newLine + config.splitCriteriaFile
-            countLineOutput += 1
-        except EmptyOutput as e:
-            logger.info("Empty output found at line: " + str(countLine) + ", " + str(e))
-        except Exception as e:
-            logger.error("Failed at line: " + str(countLine) + ", " + str(e))
-            raise
-    return [newText, countLine, countLineOutput]
-
-def getConfiguration(confFilePath, confFields, confDefault):
-    if confFilePath == "":
-        logger.warn("No configuration file given, using default conf")
-        rawConfigNoFormat = confDefault
-    else:
-        rawConfigNoFormat = readConfigFile(confFilePath)
-    rawConfig = formatHash(rawConfigNoFormat, confFields)
-    config = objects.Configuration(confFields, rawConfig)
-    return config
-    
+  def processFile(self, rawObjects):
+    newObjects = []
+    for rawObject in rawObjects:
+      try:
+        self.countLine += 1
+        if not self.config.textField in rawObject.keys():
+          raise Exception("Field '" + self.config.textField + "' is not found in object")
+        text = rawObject[self.config.textField]
+        newText = cleanSentence(text, self.config.sentenceProcList, self.config.tokenProcList)
+        rawObject[self.config.newTextField] = newText
+        newObjects.append(rawObject)
+        self.countLineOutput += 1
+      except EmptyInput as e:
+        logger.info("Empty input found at line: " + str(self.countLine) + ", " + str(e))
+      except EmptyOutput as e:
+        logger.info("Empty output found at line: " + str(self.countLine) + ", " + str(e))
+      except Exception as e:
+        logger.error("Failed at line: " + str(self.countLine) + ", " + str(e))
+        raise
+    return [newObjects, self.countLine, self.countLineOutput]
 
 def cleaner(path, outputPath, confFilePath):
-    globals.init()
+    dataglobal.init()
     try:        
-        config = getConfiguration(confFilePath, globals.confFields, globals.confDefault)
+        config = getConfig(confFilePath, data.confFields, data.confDefault)
     except Exception as e:
         logger.error("No configuration found")
         raise
-
     #Set stopwords
     data.setStopwordsPath(config.stopwordFile)
-    #Read input file
-    with open(path, 'r') as contentFile:
-        fullText = contentFile.read()
-    [newText, countLine, countLineOutput] = processFile(fullText, config)
-    logger.info("Total lines = " + str(countLine) + ", output lines = " + str(countLineOutput))
-    with open(outputPath, 'w') as contentFile:
-        contentFile.write(newText)
+    logger.debug("Configuration = " + str(config.toHash()))
+    #Read data from input file
+    fields = config.fields 
+    outFields = config.newFields 
+    p = ParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
+    s = SerializerXSV(outputPath, config.overWriteOutputFile, outFields)
+    proc = Processor(config)
+    while True:
+      rawObjects = p.nextObjects()
+      if not rawObjects:
+        break
+      [newObjects, countLine, countLineOutput] = proc.processFile(rawObjects)
+      logger.info("Lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
+      s.pushObjects(newObjects)
+    logger.info("Total lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
 
 def main():
     ## Parser input arguments
@@ -194,5 +161,5 @@ def main():
         cleaner(args.f, args.o, args.c)
     except Exception as e:
         logger.error("Error found: " + str(e))
-        sys.exit(2)
+        sys.exit(1)
     sys.exit(0)
