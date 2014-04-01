@@ -1,3 +1,69 @@
+commit c0bed66660df29acb2430638cb057026f03759e7
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:55:28 2014 +0000
+
+    Support for configuration file with optional parameters
+
+commit 61037cc775ccd638541c8181d2054c827c2e07ef
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:53:58 2014 +0000
+
+    Add configuration file
+
+commit b4605a8a1f8f9a6e394397d27e72061afd8c878a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 16 15:31:58 2013 +0000
+
+    Add *.clean to gitignore
+
+commit 1d19defa0a909014f54d8f62941485b8fdcab89d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 16:52:19 2013 +0000
+
+    new column position now is variable
+
+commit 0d12142d07a01be13050b00f0b37d581fa91deaa
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 15:33:13 2013 +0000
+
+    Fix wrong input file counting
+
+commit 75e6235cb7d441ca5161706cdb643f5f538e6cd0
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 28 12:13:37 2013 +0000
+
+    Add numpy as requierment
+
+commit 637f06d260d88cb57a67ed836b25fe4a7948eee1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 22 14:26:23 2013 +0000
+
+    fix bug: When find an empty line, the program attemps to read an non-existing object
+
+commit b788786195f707ac76ed881af940bd81ce243633
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:22:04 2013 +0000
+
+    remove example output
+
+commit fa093d31527c1fbac279faff28e8b20e279fca00
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:10:02 2013 +0000
+
+    delete *.swp files
+
+commit 5e7c2c65ae6b7014f29a12c267e429b9bb583e2a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:08:32 2013 +0000
+
+    Delete lines where clean text is empty. Add new logging system which support test and running environment
+
+commit d089163bfd593eaf0a3e51c1595d29fa9dd51ada
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Nov 18 16:42:39 2013 +0000
+
+    update CHANGES file
+
 commit d66216b3d242ac3fcfb092392cda1962cc5d4d02
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Mon Nov 18 16:42:09 2013 +0000
