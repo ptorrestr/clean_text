@@ -1,3 +1,171 @@
+commit 877d6569aeb06208771146d110294756e88b9f4d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:34:06 2014 +0100
+
+    Improve README file
+
+commit 1215aa5270dd3d2ad7e1cc652015087b0086c37d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Mar 13 15:54:28 2014 +0000
+
+    change logger configuration
+
+commit adc582fdb512abfb5c7d7afea985dfc13240eaa5
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:02:03 2014 +0000
+
+    new version 0.0.19
+
+commit 6adbe9a265437bcde2dc661af49a0ae1ca5f3258
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:01:32 2014 +0000
+
+    deleting globaldata
+
+commit 6768f2bebf62a8bda7215062fe5977ff3fb9bd45
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:00:21 2014 +0000
+
+    change globals for dataglobal
+
+commit 60620400ad93a65d2d76d2b878b1773e38c95471
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 16:31:42 2014 +0000
+
+    Fix counting lines bug. It added an extra new line when processing a new set of objects
+
+commit f3b97c40d4c182797ec9b71084806467ecf3176f
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 16:19:01 2014 +0000
+
+    Remove newline for each column read in the input file
+
+commit 68c849c67328ecf3725452785f53f896993e72a6
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:38:11 2014 +0000
+
+    Fix overwrite outputfile option and counting lines bug
+
+commit 0d90f6e2a2f5a57c8de984e9b0910f1c3cd7b561
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:25:49 2014 +0000
+
+    Fix overwrite outputfile option
+
+commit 5b1918dd5ec7b58fb2d6ad07a7263b525412f820
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:15:55 2014 +0000
+
+    Fix overwrite outputfile option
+
+commit 19760146f68c7055b2e67daf4cee598a49912fe1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:58:52 2014 +0000
+
+    version 0.0.14: Add overwrite outputfile option
+
+commit 88331812d9fd69c4d2ca590c9f0b22c0c770b6cf
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:40:53 2014 +0000
+
+    fix version 0.12. Create Processor object, which perform the cleaning job and account information. It Indicates event information using the input-line related
+
+commit 2e64c4c3a8819a73c609d4424397e805af54824b
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:18:07 2014 +0000
+
+    fix version 0.11. Now it allows serialize less fields than the fields given in the objects
+
+commit 13769491a7c3c4f738bc6a3f62825be0df977742
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:58:21 2014 +0000
+
+    create new verision 0.11
+
+commit b14970f5a921bf803bb424b479d8ea62a5d2cd5e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:57:39 2014 +0000
+
+    delete some unnecessary config options
+
+commit 0a2dc521ff5f1319fc6251c0cc085b2252fe76cf
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:50:26 2014 +0000
+
+    Add new properties to configuration file
+
+commit 9bd9a88bd3857cd897b5fdf1c4552f55de95e58e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 19:41:09 2014 +0000
+
+    Separated layer for CSV/TSV serialisation
+
+commit c0bed66660df29acb2430638cb057026f03759e7
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:55:28 2014 +0000
+
+    Support for configuration file with optional parameters
+
+commit 61037cc775ccd638541c8181d2054c827c2e07ef
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:53:58 2014 +0000
+
+    Add configuration file
+
+commit b4605a8a1f8f9a6e394397d27e72061afd8c878a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 16 15:31:58 2013 +0000
+
+    Add *.clean to gitignore
+
+commit 1d19defa0a909014f54d8f62941485b8fdcab89d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 16:52:19 2013 +0000
+
+    new column position now is variable
+
+commit 0d12142d07a01be13050b00f0b37d581fa91deaa
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 15:33:13 2013 +0000
+
+    Fix wrong input file counting
+
+commit 75e6235cb7d441ca5161706cdb643f5f538e6cd0
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 28 12:13:37 2013 +0000
+
+    Add numpy as requierment
+
+commit 637f06d260d88cb57a67ed836b25fe4a7948eee1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 22 14:26:23 2013 +0000
+
+    fix bug: When find an empty line, the program attemps to read an non-existing object
+
+commit b788786195f707ac76ed881af940bd81ce243633
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:22:04 2013 +0000
+
+    remove example output
+
+commit fa093d31527c1fbac279faff28e8b20e279fca00
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:10:02 2013 +0000
+
+    delete *.swp files
+
+commit 5e7c2c65ae6b7014f29a12c267e429b9bb583e2a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:08:32 2013 +0000
+
+    Delete lines where clean text is empty. Add new logging system which support test and running environment
+
+commit d089163bfd593eaf0a3e51c1595d29fa9dd51ada
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Nov 18 16:42:39 2013 +0000
+
+    update CHANGES file
+
 commit d66216b3d242ac3fcfb092392cda1962cc5d4d02
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Mon Nov 18 16:42:09 2013 +0000
