@@ -1,0 +1,295 @@
+commit 4cd227ce3cbc6ced01858314f0f7b9e437561ddd
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:47:03 2014 +0100
+
+    change version
+
+commit 54688336a966466eaf4a856b6c48d86345a4d847
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:43:13 2014 +0100
+
+    update CHANGES file
+
+commit 877d6569aeb06208771146d110294756e88b9f4d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:34:06 2014 +0100
+
+    Improve README file
+
+commit 1215aa5270dd3d2ad7e1cc652015087b0086c37d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Mar 13 15:54:28 2014 +0000
+
+    change logger configuration
+
+commit adc582fdb512abfb5c7d7afea985dfc13240eaa5
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:02:03 2014 +0000
+
+    new version 0.0.19
+
+commit 6adbe9a265437bcde2dc661af49a0ae1ca5f3258
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:01:32 2014 +0000
+
+    deleting globaldata
+
+commit 6768f2bebf62a8bda7215062fe5977ff3fb9bd45
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Mar 11 15:00:21 2014 +0000
+
+    change globals for dataglobal
+
+commit 60620400ad93a65d2d76d2b878b1773e38c95471
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 16:31:42 2014 +0000
+
+    Fix counting lines bug. It added an extra new line when processing a new set of objects
+
+commit f3b97c40d4c182797ec9b71084806467ecf3176f
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 16:19:01 2014 +0000
+
+    Remove newline for each column read in the input file
+
+commit 68c849c67328ecf3725452785f53f896993e72a6
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:38:11 2014 +0000
+
+    Fix overwrite outputfile option and counting lines bug
+
+commit 0d90f6e2a2f5a57c8de984e9b0910f1c3cd7b561
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:25:49 2014 +0000
+
+    Fix overwrite outputfile option
+
+commit 5b1918dd5ec7b58fb2d6ad07a7263b525412f820
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 15:15:55 2014 +0000
+
+    Fix overwrite outputfile option
+
+commit 19760146f68c7055b2e67daf4cee598a49912fe1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:58:52 2014 +0000
+
+    version 0.0.14: Add overwrite outputfile option
+
+commit 88331812d9fd69c4d2ca590c9f0b22c0c770b6cf
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:40:53 2014 +0000
+
+    fix version 0.12. Create Processor object, which perform the cleaning job and account information. It Indicates event information using the input-line related
+
+commit 2e64c4c3a8819a73c609d4424397e805af54824b
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 14:18:07 2014 +0000
+
+    fix version 0.11. Now it allows serialize less fields than the fields given in the objects
+
+commit 13769491a7c3c4f738bc6a3f62825be0df977742
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:58:21 2014 +0000
+
+    create new verision 0.11
+
+commit b14970f5a921bf803bb424b479d8ea62a5d2cd5e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:57:39 2014 +0000
+
+    delete some unnecessary config options
+
+commit 0a2dc521ff5f1319fc6251c0cc085b2252fe76cf
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Feb 17 13:50:26 2014 +0000
+
+    Add new properties to configuration file
+
+commit 9bd9a88bd3857cd897b5fdf1c4552f55de95e58e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 19:41:09 2014 +0000
+
+    Separated layer for CSV/TSV serialisation
+
+commit c0bed66660df29acb2430638cb057026f03759e7
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:55:28 2014 +0000
+
+    Support for configuration file with optional parameters
+
+commit 61037cc775ccd638541c8181d2054c827c2e07ef
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Feb 14 12:53:58 2014 +0000
+
+    Add configuration file
+
+commit b4605a8a1f8f9a6e394397d27e72061afd8c878a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 16 15:31:58 2013 +0000
+
+    Add *.clean to gitignore
+
+commit 1d19defa0a909014f54d8f62941485b8fdcab89d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 16:52:19 2013 +0000
+
+    new column position now is variable
+
+commit 0d12142d07a01be13050b00f0b37d581fa91deaa
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Dec 9 15:33:13 2013 +0000
+
+    Fix wrong input file counting
+
+commit 75e6235cb7d441ca5161706cdb643f5f538e6cd0
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 28 12:13:37 2013 +0000
+
+    Add numpy as requierment
+
+commit 637f06d260d88cb57a67ed836b25fe4a7948eee1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 22 14:26:23 2013 +0000
+
+    fix bug: When find an empty line, the program attemps to read an non-existing object
+
+commit b788786195f707ac76ed881af940bd81ce243633
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:22:04 2013 +0000
+
+    remove example output
+
+commit fa093d31527c1fbac279faff28e8b20e279fca00
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:10:02 2013 +0000
+
+    delete *.swp files
+
+commit 5e7c2c65ae6b7014f29a12c267e429b9bb583e2a
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Thu Nov 21 18:08:32 2013 +0000
+
+    Delete lines where clean text is empty. Add new logging system which support test and running environment
+
+commit d089163bfd593eaf0a3e51c1595d29fa9dd51ada
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Nov 18 16:42:39 2013 +0000
+
+    update CHANGES file
+
+commit d66216b3d242ac3fcfb092392cda1962cc5d4d02
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Mon Nov 18 16:42:09 2013 +0000
+
+    fix stopword file bugs
+
+commit ecc27e476fbb46c17d3aef4dbdae17ba8c4aff12
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 14:47:18 2013 +0000
+
+    remove t2db_objects as dependency
+
+commit 79aca9ae0e73548f9ded07d319a73e4e1d121eca
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:51:38 2013 +0000
+
+    update CHANGES files to 0.0.6
+
+commit 65ec5f5b98ad9a9414b5078783cea7293eb17c2e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:51:15 2013 +0000
+
+    new version 0.0.6
+
+commit e492795c3780efb6b520ad4cfeeb9a58151bc242
+Merge: 2858bda 267188d
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:41:16 2013 +0000
+
+    fix mergin problems
+
+commit 267188d3f183d98a9bb97053935d152ea82cb98e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 15 13:30:01 2013 +0000
+
+    Change stemming algorithm to WordNet
+
+commit 2858bdaa0a31aa194005d7b0b734b02de6e87da0
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 18:22:49 2013 +0000
+
+    fix switched argument bug in processFile function
+
+commit 74825d86aab495c7e94a7c82c45f22afb9da41f1
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:42:58 2013 +0000
+
+    new version 0.0.4 Fix some bugs
+
+commit 76b255f323002b688ead44323d2e81601b25209e
+Merge: 6be6ef1 1894807
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:27:14 2013 +0000
+
+    Merge branch 'master' of https://github.com/ptorrestr/clean_text
+
+commit 6be6ef1f25f8d05ad67f044184ca604a7cf76dd9
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:25:32 2013 +0000
+
+    add new status and the end of the line
+
+commit 1894807c654d45c1c614489a6c0d8b3141f2448a
+Author: ptorrestr <pablo.torres.t@gmail.com>
+Date:   Wed Nov 13 17:07:27 2013 +0000
+
+    Update README.md
+
+commit cf5a47089a31ff63e705b68f1ee155b55a307430
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:06:05 2013 +0000
+
+    new version 0.0.3
+
+commit dbbc70703708177e1d58506dae8237e7594b41df
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 17:04:01 2013 +0000
+
+    update setup.py
+
+commit 7243fdc7cf96b00cea4c9937add405def2bdb1d8
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 16:46:40 2013 +0000
+
+    update CHANGES file
+
+commit 79cb1b3d288e08a79d8b5879fbe6fe8b61e25c61
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Wed Nov 13 16:46:14 2013 +0000
+
+    support for user defined stopword list
+
+commit ce1425c8def7e50efe9013c6ba1929e93c6f633b
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 1 15:48:05 2013 +0000
+
+    add CHANGES file
+
+commit f1c4ef8aa1ddd1be5d6193cdd4e20f3eb822a6c3
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Nov 1 15:47:12 2013 +0000
+
+    remove double chars
+
+commit b36f1b32ec922032322b4f46bba0e5272f90fc57
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Oct 18 16:10:50 2013 +0100
+
+    add nltk version in setup.py
+
+commit f7e12888e9ab6541ef6b95f4fd2f8c8268656f10
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Oct 18 16:05:13 2013 +0100
+
+    initial commit
