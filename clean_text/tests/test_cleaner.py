@@ -12,10 +12,9 @@ from clean_text.cleaner import cleanSentence
 from clean_text.cleaner import Processor 
 from clean_text.cleaner import cleaner
 from clean_text.config import getConfig
+from clean_text.config import setConfig
 from clean_text.data import setStopwordsPath
 from clean_text.dataglobal import init
-from clean_text.data import confFields
-from clean_text.data import confDefault
 
 
 """ Count the word in the file given"""
@@ -80,7 +79,8 @@ class TestCleanerFunctions(unittest.TestCase):
       "status_clean":"awesome amaze shin star merci baloji"
       }
     rawObjects = [rawObject]
-    config = getConfig("", confFields, confDefault)
+    setConfig()
+    config = getConfig()
     proc = Processor(config)
     newRawObject = proc.processFile(rawObjects)
     self.assertEqual(rawObject, goldenRawObject)
@@ -93,7 +93,8 @@ class TestCleanerFunctions(unittest.TestCase):
       "status":"@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i"
       }
     rawObjects = [rawObject]
-    config = getConfig("", confFields, confDefault)
+    setConfig()
+    config = getConfig()
     config.textField = "otherfield"
     proc = Processor(config)
     self.assertRaises(Exception, proc.processFile, rawObjects)

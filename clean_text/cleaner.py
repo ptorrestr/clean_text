@@ -4,6 +4,7 @@ import argparse
 import logging
 
 from clean_text.config import getConfig
+from clean_text.config import setConfig
 from clean_text.serializerXSV import ParserXSV
 from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
@@ -114,8 +115,9 @@ class Processor(object):
 
 def cleaner(path, outputPath, confFilePath):
     dataglobal.init()
-    try:        
-        config = getConfig(confFilePath, data.confFields, data.confDefault)
+    try:
+        setConfig(confFilePath)        
+        config = getConfig()
     except Exception as e:
         logger.error("No configuration found")
         raise
