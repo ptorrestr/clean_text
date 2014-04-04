@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger("clean_text")
 
 class NotWellFormedException(Exception):
   def __init__(self, value):

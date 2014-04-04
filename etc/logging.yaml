@@ -8,6 +8,11 @@ handlers:
     level: INFO
     formatter: simple
     stream: ext://sys.stdout
+loggers:
+  clean_text:
+    level: INFO
+    handlers: [console]
+    propagate: no
 root:
   level: INFO
   handlers: [console]

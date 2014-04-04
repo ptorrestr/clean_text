@@ -1,4 +1,8 @@
+import os
+import logging
 from clean_text import dataglobal
+
+logger = logging.getLogger("clean_text")
 
 def setStopwordsPath(stopwordsPath):
   dataglobal.list["stopwordsPath"] = stopwordsPath
@@ -12,13 +16,18 @@ def stopwords():
     # Has the user set a path for stopwords?
     if not stopwordsPath == '':
       # load stopwords
-      dataglobal.list["stopwords"] = readListFile(stopwordsPath)
+      try:
+        dataglobal.list["stopwords"] = readListFile(stopwordsPath)
+      except Exception as e:
+        logger.warn("No stopword file: " + str(e)) 
     else:
       dataglobal.list["stopwords"] = []
     dataglobal.list["stopwordsAlreadyUploaded"] = True
   return dataglobal.list["stopwords"]
 
 def readListFile(path):
+  if not os.path.isfile(path):
+    raise Exception("path : " + path + " is not found")
   lines = []
   try:
     with open(path, "r") as listFile:

@@ -14,7 +14,7 @@ from clean_text import functions
 
 # Get log config file
 
-logger = logging.getLogger()
+logger = logging.getLogger("clean_text")
 
 class EmptyOutput(Exception):
   def __init__(self, value):

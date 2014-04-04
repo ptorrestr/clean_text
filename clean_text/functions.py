@@ -1,8 +1,11 @@
 import nltk
 from nltk.corpus import wordnet
 import re
+import logging
 
 from clean_text import data
+
+logger = logging.getLogger("clean_text")
 
 #This file has the basic function for cleaning. The functions are divided
 #in two categories, sentences and tokens. 

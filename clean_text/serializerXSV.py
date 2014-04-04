@@ -3,7 +3,7 @@ import logging
 from os import remove
 from os.path import isfile
 
-logger = logging.getLogger()
+logger = logging.getLogger("clean_text")
 
 class BufferedReader(object):
   def __init__(self, filePath, lines = 100):

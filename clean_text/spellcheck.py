@@ -1,5 +1,8 @@
 # Developed by Peter Norvig [https://github.com/mattalcock/hacks/blob/master/spellcheck/spellcheck.py]
 import re, collections
+import logging
+
+logger = logging.getLogger("clean_text")
 
 def words(text):
     return re.findall('[a-z]+', text.lower())
