@@ -1,14 +1,70 @@
+commit fcd818ce71beb47af623dc8ef16e1433a11d53fb
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Apr 4 16:40:02 2014 +0100
+
+    Update MANIFEST.in. Add Sphinx as dependency
+
+commit 9b4429c4f6c61e15526b220c4fe165a6db885742
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Apr 4 16:29:58 2014 +0100
+
+    Update gitignore to avoid build docs. Add docuementation makefile
+
+commit b6c728efa0d22afb4c2f78d5c5709a9b4e79a57e
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Apr 4 16:27:55 2014 +0100
+
+    Add function, clase and modules documentation
+
+commit 797971e21bfb80b6936167dfc1e67192e472c637
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Apr 4 11:08:54 2014 +0100
+
+    Chage dafault logger. Now using 'clean_text'
+
+commit 4e63b2d2a6bb0017d05c735c29c73385a070e69c
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Fri Apr 4 10:54:20 2014 +0100
+
+    Change configuration system
+
+commit d6899c9fb0943aac19d2cfd00521593207f64286
+Merge: 6166cfb 78f3c0f
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:51:04 2014 +0100
+
+    merging
+
+commit 78f3c0f5820ab7a1a964051eb1ef582f7b66497b
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:47:27 2014 +0100
+
+    update CHANGES
+
 commit 4cd227ce3cbc6ced01858314f0f7b9e437561ddd
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Tue Apr 1 13:47:03 2014 +0100
 
     change version
 
+commit 6166cfbbfe368b15fde164d71b845bd5efb17cdc
+Merge: aaabaf8 5468833
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:45:20 2014 +0100
+
+    Merging
+
 commit 54688336a966466eaf4a856b6c48d86345a4d847
 Author: Pablo Torres <pablo.torres@deri.org>
 Date:   Tue Apr 1 13:43:13 2014 +0100
 
     update CHANGES file
+
+commit aaabaf893091c9b26e88defea8ee77070df51666
+Author: Pablo Torres <pablo.torres@deri.org>
+Date:   Tue Apr 1 13:41:06 2014 +0100
+
+    update changes
 
 commit 877d6569aeb06208771146d110294756e88b9f4d
 Author: Pablo Torres <pablo.torres@deri.org>
