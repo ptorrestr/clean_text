@@ -42,3 +42,6 @@ nosetests.xml
 
 #clean files
 *.clean
+
+#build docs
+docs/build
