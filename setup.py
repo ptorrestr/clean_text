@@ -21,6 +21,7 @@ setup(
         'nltk >= 2.0.4',
         'numpy >= 1.8',
         't2db_objects >= 0.5',
+        'sphinx >= 1.2.2'
     ],
     entry_points = {
         'console_scripts':[

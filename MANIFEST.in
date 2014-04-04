@@ -1,4 +1,7 @@
 include README.md
 include CHANGES
 include LICENSE
-recursive-include docs *.txt
+recursive-include docs *.rst
+recursive-include docs *.py
+include docs/Makefile
+include docs/make.bat

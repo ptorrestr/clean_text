@@ -39,3 +39,6 @@ Where:
 * OUTPUT\_FILE The path to the output file (if it doesn't exist, it will be created)
 * INPUT\_FILE The path to the input file
 
+Documentation
+-------------
+`cd docs; make html`
