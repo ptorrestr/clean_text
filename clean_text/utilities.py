@@ -1,8 +1,17 @@
+"""
+=====
+Utilities
+=====
+"""
 import logging
 
 logger = logging.getLogger("clean_text")
 
 class NotWellFormedException(Exception):
+  """
+  It controls the configuration file structure. When some element of the configuration structure (defined 
+  in data.py) is missing, this Exception will be raised.
+  """
   def __init__(self, value):
     self.value = value
   
@@ -11,6 +20,10 @@ class NotWellFormedException(Exception):
 
 
 def readConfigFile(configFilePath):
+  """
+  Read the file pointed by configFilePath and create a dictionary with the information. If a line
+  of the file starts with the simbol '#', then the line is considered a comment.
+  """
   properties = {}
   numLine = 1
   with open(configFilePath, "r", -1) as configFile:
@@ -32,6 +45,9 @@ def readConfigFile(configFilePath):
   return properties
 
 def formatHash(myHash, myFields):
+  """
+  Ensure that the configuration values (myHash) are in the correct format (myFields).
+  """
   newHash = {}
   for field in myFields:
     if not "name" in field:

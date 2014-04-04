@@ -1,3 +1,9 @@
+"""
+==========
+Data
+==========
+"""
+
 import os
 import logging
 from clean_text import dataglobal
@@ -5,9 +11,15 @@ from clean_text import dataglobal
 logger = logging.getLogger("clean_text")
 
 def setStopwordsPath(stopwordsPath):
+  """
+  Save the stopwords file path in the global list.
+  """
   dataglobal.list["stopwordsPath"] = stopwordsPath
 
 def stopwords():
+  """
+  Get a list of stopword defined in the stopword file path.
+  """
   stopwordsPath = dataglobal.list["stopwordsPath"]
   stopwordsAlreadyUploaded = dataglobal.list["stopwordsAlreadyUploaded"]
 
@@ -26,6 +38,10 @@ def stopwords():
   return dataglobal.list["stopwords"]
 
 def readListFile(path):
+  """
+  Read the file pointed by path and put the data in list of string. If the string read starts with
+  the character '#', then is considered a comment and the content is not stored.
+  """
   if not os.path.isfile(path):
     raise Exception("path : " + path + " is not found")
   lines = []
@@ -50,6 +66,9 @@ confFields = [
   {"name":"newFields", "kind":"mandatory", "type":list},
   {"name":"newTextField", "kind":"mandatory", "type":str},
   ]
+""" 
+Define the necessary field that should be included in the configuration object.
+"""
 
 confDefault = {
   "overWriteOutputFile":True,
@@ -63,3 +82,7 @@ confDefault = {
   "newFields":"date id hash user_id status status_clean",
   "newTextField":"status_clean",
   }
+"""
+Define the default values for the configuration object. These values are set only if no configuration
+file is given.
+"""
