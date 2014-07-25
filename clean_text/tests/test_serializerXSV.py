@@ -6,7 +6,9 @@ from os.path import isfile
 from clean_text.serializerXSV import BufferedReader
 from clean_text.serializerXSV import append
 from clean_text.serializerXSV import SerializerXSV
+from clean_text.serializerXSV import SerializerXSV_CSV
 from clean_text.serializerXSV import ParserXSV
+from clean_text.serializerXSV import ParserXSV_CSV
 from clean_text.serializerXSV import ColumnsNotEquivalentException
 
 def lineCount(filePath):
@@ -86,7 +88,6 @@ class TestSerializerXSVClass(unittest.TestCase):
     self.assertTrue(isfile(filePath))
     s = SerializerXSV(filePath, True, fields)
     self.assertFalse(isfile(filePath))
-
   
   def testInitNotOverwrite(self):
     fields = ["date", "id", "hash", "user_id", "status"]
@@ -129,6 +130,48 @@ class TestSerializerXSVClass(unittest.TestCase):
     if isfile(filePath):
       remove(filePath)
     s = SerializerXSV(filePath, True, fields)
+    rawObject1 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+       , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    rawObject2 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+       , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    rawObjectList = [rawObject1, rawObject2]
+    s.pushObjects(rawObjectList)
+    self.assertTrue(isfile(filePath))
+    self.assertEqual(lineCount(filePath), 2)
+    remove(filePath)
+
+class TestSerializerXSV_CSVClass(unittest.TestCase):
+  def setUp(self):
+    pass
+
+  def testInit(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/output.tsv"
+    s = SerializerXSV_CSV(filePath, True, fields)
+    rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+      , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    s.pushObjects([rawObject])
+    self.assertTrue(isfile(filePath))
+    s = SerializerXSV_CSV(filePath, True, fields)
+    self.assertFalse(isfile(filePath))
+
+  def testInitNotOverwrite(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/output.tsv"
+    s = SerializerXSV_CSV(filePath, True, fields)
+    rawObject = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
+      , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
+    s.pushObjects([rawObject])
+    self.assertTrue(isfile(filePath))
+    s = SerializerXSV_CSV(filePath, False, fields)
+    self.assertTrue(isfile(filePath))
+
+  def testPushObjects(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/output.tsv"
+    if isfile(filePath):
+      remove(filePath)
+    s = SerializerXSV_CSV(filePath, True, fields)
     rawObject1 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
        , "user_id":"293331739", "status": "@ShesDopeTho good myself.."}
     rawObject2 = { "date": "2011-08-07T05:57:45Z", "id":"100068086551543808", "hash":"18974170"
@@ -209,6 +252,26 @@ class TestParserXSVClass(unittest.TestCase):
     fields = ["date", "id", "hash", "user_id", "status"]
     filePath = "./etc/example.tsv"
     p = ParserXSV(fields, filePath, 50)
+    while True:
+      rawObjects = p.nextObjects()
+      if not rawObjects:
+        break
+    self.assertEqual(p.count, 100)
+
+class TestParserXSV_CSVClass(unittest.TestCase):
+  def setUp(self):
+    pass
+
+  def testInit(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/example.tsv"
+    p = ParserXSV_CSV(fields, filePath)
+    p.close()
+
+  def testNextLinesGreaterBuffer(self):
+    fields = ["date", "id", "hash", "user_id", "status"]
+    filePath = "./etc/example.tsv"
+    p = ParserXSV_CSV(fields, filePath, 200)
     while True:
       rawObjects = p.nextObjects()
       if not rawObjects:

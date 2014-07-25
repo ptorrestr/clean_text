@@ -15,7 +15,7 @@ import logging
 
 from clean_text.config import getConfig
 from clean_text.config import setConfig
-from clean_text.serializerXSV import ParserXSV
+from clean_text.serializerXSV import ParserXSV_CSV
 from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
 from clean_text import dataglobal
@@ -164,6 +164,9 @@ class Processor(object):
         logger.info("Empty input found at line: " + str(self.countLine) + ", " + str(e))
       except EmptyOutput as e:
         logger.info("Empty output found at line: " + str(self.countLine) + ", " + str(e))
+      except UnicodeDecodeError as e:
+        logger.error("Cannot understant text: " + text + " at line " + str(self.countLine) + ", " + str(e))
+        raise
       except Exception as e:
         logger.error("Failed at line: " + str(self.countLine) + ", " + str(e))
         raise
@@ -187,7 +190,7 @@ def cleaner(path, outputPath, confFilePath):
     #Read data from input file
     fields = config.fields 
     outFields = config.newFields 
-    p = ParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
+    p = ParserXSV_CSV(fields, path, config.bufferSize, config.splitCriteriaLine)
     s = SerializerXSV(outputPath, config.overWriteOutputFile, outFields)
     proc = Processor(config)
     while True:

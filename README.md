@@ -23,10 +23,41 @@ Manually install:
 * `git clone CLEAN_TEXT_URL`
 * `cd clean_text; python setup install`
 
+Numpy over Openblas
+* go to the virtualenv folder
+* add `source /opt/env/c++/openblas_default` to the bin/activate file
+* source /virtualenv/folder/bin/activate
+* `mkdir download`
+* `mkdir build`
+* `pip install -d download numpy`
+* `tar -xvf download/numpy*.tar.gz`
+* mv download/numpy* build/
+* create file build/numpy*/site.cfg. Add the following data:
+`
+[default]
+library_dirs = /opt/usr/local/openblas/lib
+
+[openblas]
+libraries = openblas
+library_dirs = /opt/usr/local/openblas/lib
+include_dirs = /opt/usr/local/openblas/include
+
+[atlas]
+atlas_libs = openblas
+library_dirs = /opt/usr/local/openblas/lib
+
+[lapack]
+lapack_libs = openblas
+library_dirs = /opt/usr/local/openblas/lib
+`
+* python setup.py build/install
+
 Dependencies:
 * nltk
 * numpy
 * t2db\_objects
+* sphinx
+* pyyaml
 
 Configuration
 -------------
