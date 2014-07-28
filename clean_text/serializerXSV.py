@@ -5,6 +5,7 @@ SerializerXSV
 This module controls the methods used to parse, get and store the data stored in CSV or TSV format.
 """
 
+import tempfile
 import codecs
 import cStringIO
 import csv
@@ -27,7 +28,7 @@ class BufferedReader(object):
     read in each iteration.
     """
     self.lines = lines
-    self.f = codecs.open(filePath, mode = 'r', encoding = 'utf-8')
+    self.f = codecs.open(filePath, mode = 'rb', encoding = 'utf-8')
  
   def close(self):
     """
@@ -195,7 +196,7 @@ class ParserXSV(Parser):
     logger.debug("Objects read = " + str(len(rawObjectList)))
     return rawObjectList
 
-class ParserXSV_CSV(object):
+class ParserXSV_CSV(Parser):
   """
   This class can parse a XSV fifle
   """
@@ -206,26 +207,47 @@ class ParserXSV_CSV(object):
     fields from fields.
     """
     self.fields = fields
-    self.f = open(filePath, "r")
-    self.reader = UnicodeReader(self.f, delimiter = criteria, fieldnames = fields)
-    self.criteria = criteria
+    #Ensure that the file content is not null
+    fr = open(filePath, "rb")
+    data = fr.read()
+    fr.close()
+    if data.count('\x00') > 0:
+      logger.warn("The input file has NULL values, fixing")
+      fw = open(filePath, "wb")
+      fw.write(data.replace('\x00', ''))
+      fw.close()
+    # Readfile buffering the content
+    super(ParserXSV_CSV, self).__init__(fields, filePath, lines, criteria)
     self.count = 0
 
   def nextObjects(self):
     """
     Return the all the objects in the file
     """
-    rawObjectList = []
+    lines = []
     while True:
-      item =  self.reader.next()
-      if item == None:
-        break
-      self.count += 1
-      rawObjectList.append(item)
-    return rawObjectList
+      try:
+        lines.extend(self.reader.nextLines())
+        with open("tmpfile", "w+b") as t:
+          for line in lines:
+            t.write(line.encode('utf-8'))
+        t = open("tmpfile", "rb")
+        unicodeReader = UnicodeReader(t, delimiter = self.criteria, fieldnames = self.fields)
+        rawObjectList = []
+        while True:
+          item = unicodeReader.next() 
+          if item == None:
+            break
+          self.count += 1
+          rawObjectList.append(item)
+        t.close()
+        return rawObjectList
+      except csv.Error as e:
+        logger.warn("Add extra lines to avoid csv error, " + str(e))
+        pass
 
   def close(self):
-    self.f.close()
+    self.reader.close()
 
 # Exceptions
 class ColumnsNotEquivalentException(Exception):
@@ -251,7 +273,7 @@ class UTF8Recoder:
 
   def next(self):
     n = self.reader.next()
-    return n.encode("utf-8")
+    return n.encode('utf-8')
 
 class UnicodeReader:
   """
@@ -267,10 +289,15 @@ class UnicodeReader:
     try:
       row = self.reader.next()
       for elem in row:
+        if row[elem] == None:
+          logger.debug(row)
+          raise Exception("Null columns found in file. Check field configuration")
         row[elem] = unicode(row[elem], "utf-8")
       return row
     except StopIteration:
       return None
+    except Exception:
+      raise
 
   def __iter__(self):
     return self

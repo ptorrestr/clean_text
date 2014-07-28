@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from os.path import isfile
@@ -51,19 +53,26 @@ class TestCleanerFunctions(unittest.TestCase):
     sentence = "Hello I'm very happy 1313"
     goldenSentence = "hello"
     tokens = tokenize(sentence)
-    newTokens = tokenCleaner(tokens, ["stemming",
-      "removePunctuationAndNumbers", "toLowerCase", "stopwording"])
+    newTokens = tokenCleaner(tokens, ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording"])
     self.assertEqual(sentenize(newTokens), goldenSentence)
     
   def test_cleanSentence(self):
-    sentence = ("At 8 o'clock on Thursday morning, the boys and " +
-      "girls didn't feel very good.")
+    sentence = ("At 8 o'clock on Thursday morning, the boys and girls didn't feel very good.")
     sentenceProcList = ["removeUrl", "removeUserMention"]
     tokenProcList = ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording", "removeSingleChar", "removeDoubleChar"]
     newSentence = cleanSentence(sentence, sentenceProcList, tokenProcList)
     goldSentence = "oclock thursday morning boy girl feel good"
     self.assertEqual(newSentence, goldSentence)
 
+  def test_cleanSentenceUnicode(self):
+    sentence = u"Según @NWS_PTWC, no hay riesgo generalizado de #tsunami tras el #sismo de Japón http://t.co/icErcNfSCf"
+    sentenceProcList = ["removeUrl", "removeUserMention"]
+    tokenProcList = ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording", "removeSingleChar", "removeDoubleChar"]
+    newSentence = cleanSentence(sentence, sentenceProcList, tokenProcList)
+    goldSentence = u"según hay riesgo generalizado tsunami tras sismo japón"
+    self.assertEqual(newSentence, goldSentence)
+
+  @unittest.skip("demonstrating skipping")
   def test_processFile(self):
     rawObject = {
       "date":"Sun Aug 07 01:28:32 IST 2011",
@@ -85,6 +94,29 @@ class TestCleanerFunctions(unittest.TestCase):
     newRawObject = proc.processFile(rawObjects)
     self.assertEqual(rawObject, goldenRawObject)
 
+  @unittest.skip("demonstrating skipping")
+  def test_processFileUnicode(self):
+    rawObject = {
+      "date":u"Sun Aug 07 01:28:32 IST 2011",
+      "id":u"100000335933878272",
+      "user_id":u"71610408",
+      "status":u"Según @NWS_PTWC, no hay riesgo generalizado de #tsunami tras el #sismo de Japón http://t.co/icErcNfSCf",
+    }
+    goldenRawObject = {
+      "date":u"Sun Aug 07 01:28:32 IST 2011",
+      "id":u"100000335933878272",
+      "user_id":u"71610408",
+      "status":u"Según @NWS_PTWC, no hay riesgo generalizado de #tsunami tras el #sismo de Japón http://t.co/icErcNfSCf",
+      "status_clean":u"Según hay riesgo generalizado tsunami tras sismo Japón"
+    }
+    rawObjects = [rawObject]
+    setConfig()
+    config = getConfig()
+    proc = Processor(config)
+    newRawObject = proc.processFile(rawObjects)
+    self.assertEqual(rawObject, goldenRawObject)
+
+  @unittest.skip("demonstrating skipping")
   def test_notValidProcessFile(self):
     rawObject = {
       "date":"Sun Aug 07 01:28:32 IST 2011",
@@ -99,6 +131,7 @@ class TestCleanerFunctions(unittest.TestCase):
     proc = Processor(config)
     self.assertRaises(Exception, proc.processFile, rawObjects)
 
+  @unittest.skip("avoid big files")
   def test_cleaner(self):
     path = "./etc/example.tsv"
     outputPath = path + ".clean"

@@ -126,8 +126,10 @@ def cleanSentence(sentence, sentenceProcList, tokenProcList):
     tokens = tokenize(sentence)
     # Clean sentence
     newTokens = tokenCleaner(tokens, tokenProcList)
+    logger.debug(newTokens)
     # Post clean. 
     newSentence = sentenize(newTokens)
+    logger.debug(newSentence)
     if newSentence == "":
       raise EmptyOutput("Output sentence is empty")
     return newSentence
@@ -161,9 +163,9 @@ class Processor(object):
         newObjects.append(rawObject)
         self.countLineOutput += 1
       except EmptyInput as e:
-        logger.info("Empty input found at line: " + str(self.countLine) + ", " + str(e))
+        logger.warn("Empty input found at line: " + str(self.countLine) + ", " + str(e))
       except EmptyOutput as e:
-        logger.info("Empty output found at line: " + str(self.countLine) + ", " + str(e))
+        logger.debug("Empty output found at line: " + str(self.countLine) + ", " + str(e))
       except UnicodeDecodeError as e:
         logger.error("Cannot understant text: " + text + " at line " + str(self.countLine) + ", " + str(e))
         raise
@@ -226,5 +228,5 @@ def main():
         cleaner(args.f, args.o, args.c)
     except Exception as e:
         logger.error("Error found: " + str(e))
-        sys.exit(1)
+        raise
     sys.exit(0)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 =====
 Functions - Token's and sentence's function declarations.
@@ -14,8 +15,46 @@ import re
 import logging
 
 from clean_text import data
+from clean_text.language import NGram
 
 logger = logging.getLogger("clean_text")
+
+# URL patter. Obtained from https://gist.github.com/gruber/249502
+# Multi-line commented version of same pattern:
+url_pattern = re.compile(
+  r'(?xi)'
+  r'\b'
+  r'(' # Capture 1: entire matched URL
+  r'(?:'
+  r'[a-z][\w-]+:' # URL protocol and colon
+  r'(?:'
+  r'/{1,3}' # 1-3 slashes
+  r'|' # or
+  r'[a-z0-9%]' # Single letter or digit or '%'
+  # (Trying not to match e.g. "URI::Escape")
+  r')'
+  r'|' # or
+  r'www\d{0,3}[.]' # "www.", "www1.", "www2." … "www999."
+  r'|' # or
+  r'[a-z0-9.\-]+[.][a-z]{2,4}/' # looks like domain name followed by a slash
+  r')'
+  r'(?:' # One or more:
+  r'[^\s()<>]+' # Run of non-space, non-()<>
+  r'|' # or
+  r'\(([^\s()<>]+|(\([^\s()<>]+\)))*\)' # balanced parens, up to 2 levels
+  r')+'
+  r'(?:' # End with:
+  r'\(([^\s()<>]+|(\([^\s()<>]+\)))*\)' # balanced parens, up to 2 levels
+  r'|' # or
+  r'[^\s`!()\[\]{};:\'".,<>?«»“”‘’]' # not a space or one of these punct char
+  r')'
+  r')'
+  )
+
+# Train english detector
+with open("etc/big.txt") as f:
+  text = f.read()
+english = NGram(text, n = 3)
 
 def removeUrl(sentence):
   """
@@ -23,16 +62,7 @@ def removeUrl(sentence):
   Input: The sentence string (list of token).
   Remove URLs
   """
-  #TODO: Improve URL pattern
-  urls = re.compile(
-    r'(?:http|ftp)s?://' # http:// or https://
-    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain...
-    r'localhost|' # localhost...
-    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|' # ...or ipv4
-    r'\[?[A-F0-9]*:[A-F0-9:]+\]?)' # ...or ipv6
-    r'(?::\d+)?' # optional port
-    r'(?:/?|[/?]\S+)', re.IGNORECASE)
-  return urls.sub("", sentence)
+  return url_pattern.sub("", sentence)
 
 def removeUserMention(sentence):
   """
@@ -43,6 +73,19 @@ def removeUserMention(sentence):
   users = re.compile(
     r'@[\w]+')
   return users.sub("", sentence)
+
+def englishLanguage(sentence):
+  """
+  Sentence function
+  Input: The sentence string
+  If the sentence language is english, the function will return a non-empty string. Otherwise, an empty string will be returned.
+  Output: String
+  """
+  similarity = english - NGram(sentence, n=3)
+  if similarity > 0.85:
+    return ""
+  logger.debug("similarity = " + str(similarity))
+  return sentence
 
 def stemming(token):
   """
@@ -98,15 +141,16 @@ def stopwording(token, language = 'english'):
     return ("", token[1])
   return (token[0], token[1])
 
+
 def removePunctuationAndNumbers(token):
-  """
+  """  
   Token functions
   Input: two-length list. The first element is the word, and the sencond the tag(stemming).
   Eliminate punctuation chars and numbers (digits)
   """
-  #TODO: Can be applied directly to the sentence?
-  punctuation = re.compile(r'[\W|0-9|_]')
+  punctuation = re.compile(r'[\W|0-9|_]', re.UNICODE)
   return ( punctuation.sub("", token[0]), token[1])
+
 
 def removeSingleChar(token, excepts = ["#"]):
   """

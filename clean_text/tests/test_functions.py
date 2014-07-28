@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 import unittest
+import logging
 
 from clean_text.functions import removeUrl
 from clean_text.functions import removeUserMention
+from clean_text.functions import englishLanguage
 from clean_text.functions import stemming
 from clean_text.functions import stopwording
 from clean_text.functions import toLowerCase
@@ -14,6 +17,8 @@ from clean_text.cleaner import sentenize
 from clean_text.data import setStopwordsPath
 from clean_text.dataglobal import init
 
+logger = logging.getLogger('clean_text')
+
 class TestFunctionsFunctions(unittest.TestCase):
   def setUp(self):
     init()
@@ -24,10 +29,30 @@ class TestFunctionsFunctions(unittest.TestCase):
     goldenSentence = "this is an URL   "
     self.assertEqual(removeUrl(sentence), goldenSentence)
 
+  def test_removeUrl2(self):
+    sentence = "this is an URL http://t.co/icErcNfSCf"
+    goldenSentence = "this is an URL "
+    self.assertEqual(removeUrl(sentence), goldenSentence)
+
   def test_removeUserMention(self):
     sentence = "this is an user @ptorrestr @asa23"
     goldenSentence = "this is an user  "
     self.assertEqual(removeUserMention(sentence), goldenSentence)
+
+  def test_englishLanguage(self):
+    sentence = "Map from Japanese meterological agency shows areas under tsunami advisory a litle longer how can it happen"
+    goldenSentence = sentence
+    self.assertEqual(englishLanguage(sentence), goldenSentence)
+
+  def test_englishLanguageOther(self):
+    sentence = "esta es una oración en español"
+    goldenSentence = ""
+    self.assertEqual(englishLanguage(sentence), goldenSentence)
+
+  def test_englishLanguageOther2(self):
+    sentence = "RT @el_pais: Alerta amarilla por un tsunami de un metro de altura que alcanzará en breve las costas de Fukushima y que no se espera destru…"
+    goldenSentence = ""
+    self.assertEqual(englishLanguage(sentence), goldenSentence)
 
   def test_stemming(self):
     sentence = "boys and women want to have homes, not cars going and archives"
