@@ -16,8 +16,8 @@ It is recomendable to use virtualenv to avoid package conflicts
 * virtualenv /SOME/PATH -p python2
 * source /SOME/PATH/bin/activate
 
-Automatically install:
-* `pip install --index-url http://10.2.16.32/simple clean_text`
+t2db\_objects:
+ * `pip install git+https://gitlab.insight-centre.org/hujo/t2db_objects.git`
 
 Manually install:
 * `git clone CLEAN_TEXT_URL`
