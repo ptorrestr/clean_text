@@ -32,7 +32,7 @@ setup(
   ],
   url = 'http://github.com/ptorrest/clean_text',
   author = 'Pablo Torres',
-  author_email = 'pablo.torres@deri.org',
+  author_email = 'pablo.torres.t@gmail.com',
   license = 'GNU',
   packages = ['clean_text', 'clean_text.tests'],
   install_requires = dependencies(),

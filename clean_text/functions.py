@@ -15,10 +15,11 @@ from nltk.corpus import wordnet
 import re
 import logging
 
-from clean_text import data
 from clean_text.language import NGram
 
 logger = logging.getLogger("clean_text")
+
+stopwords = []
 
 # URL patter. Obtained from https://gist.github.com/gruber/249502
 # Multi-line commented version of same pattern:
@@ -135,10 +136,11 @@ def stopwording(token, language = 'english'):
   Input: two-length list. The first element is the word, and the sencond the tag(stemming).
   Determine if the word is stopword or not.
   """
+  global stopwords
   #TODO: Use a better data-structure. Other languages
   if token[0] in nltk.corpus.stopwords.words(language):
     return ("", token[1])
-  if token[0] in data.stopwords():
+  if token[0] in stopwords:
     return ("", token[1])
   return (token[0], token[1])
 

@@ -15,15 +15,10 @@ import logging
 
 from t2db_objects.serializerXSV import SerializerXSV
 from t2db_objects.serializerXSV import BufferedParserXSV
+from t2db_objects.utilities import readListFile
 
-from clean_text.config import getConfig
-from clean_text.config import setConfig
-from clean_text import data
-from clean_text import dataglobal
 from clean_text.logger import setup_logging
 from clean_text import functions
-
-# Get log config file
 
 logger = logging.getLogger("clean_text")
 
@@ -137,10 +132,13 @@ def cleanSentence(sentence, sentenceProcList, tokenProcList):
 class Processor(object):
   """ Control the cleaning procedure execution over an input file.
   """
-  def __init__(self, config): 
+  def __init__(self, text_field, new_text_field, sentence_proc_list, token_proc_list): 
     self.countLine = 0
     self.countLineOutput = 0
-    self.config = config
+    self.text_field = text_field
+    self.new_text_field = new_text_field
+    self.sentence_proc_list = sentence_proc_list
+    self.token_proc_list = token_proc_list
 
   def processFile(self, rawObjects):
     """ It iterates the rawObjects (list) arg and select the appropiate text field 
@@ -155,11 +153,11 @@ class Processor(object):
     for rawObject in rawObjects:
       try:
         self.countLine += 1
-        if not self.config.textField in rawObject.keys():
-          raise Exception("Field '" + self.config.textField + "' is not found in object")
-        text = rawObject[self.config.textField]
-        newText = cleanSentence(text, self.config.sentenceProcList, self.config.tokenProcList)
-        rawObject[self.config.newTextField] = newText
+        if not self.text_field in rawObject.keys():
+          raise Exception("Field '" + self.text_field + "' is not found in object")
+        text = rawObject[self.text_field]
+        newText = cleanSentence(text, self.sentence_proc_list, self.token_proc_list)
+        rawObject[self.new_text_field] = newText
         newObjects.append(rawObject)
         self.countLineOutput += 1
       except EmptyInput as e:
@@ -174,59 +172,36 @@ class Processor(object):
         raise
     return [newObjects, self.countLine, self.countLineOutput]
 
-def cleaner(path, outputPath, confFilePath):
-    """ This is the core function. First, it sets the configuration file and the stopword file
-        then read the input CSV file using a local buffer. The data read is processed line 
-        by line and the result is stored in the outpufile.
-    """
-    dataglobal.init()
-    try:
-        setConfig(confFilePath)        
-        config = getConfig()
-    except Exception as e:
-        logger.error("No configuration found")
-        raise
-    #Set stopwords
-    data.setStopwordsPath(config.stopwordFile)
-    logger.debug("Configuration = " + str(config.toHash()))
-    #Read data from input file
-    fields = config.fields 
-    outFields = config.newFields 
-    p = BufferedParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
-    s = SerializerXSV(outputPath, config.overWriteOutputFile, outFields)
-    proc = Processor(config)
-    while True:
-      rawObjects = p.nextObjects()
-      if not rawObjects:
-        break
-      [newObjects, countLine, countLineOutput] = proc.processFile(rawObjects)
-      logger.info("Lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
-      s.pushObjects(newObjects)
-    logger.info("Total lines: Processed = " + str(countLine) + ", Produced = " + str(countLineOutput) )
+def load_stopwords(stopwords_file_path):
+  """
+  Get a list of stopword defined in the stopword file path.
+  """
+  # load stopwords
+  try:
+    stopwords = readListFile(stopwords_file_path)
+  except Exception as e:
+   logger.error("Couldn't read stopword file: " + stopwords_file_path)
+   raise
+  return stopwords
 
-def main():
-    ## Parser input arguments
-    parser = argparse.ArgumentParser()
-    # positionals
-    parser.add_argument('f',
-        help='Input file path',
-        type = str)
-    # with default
-    parser.add_argument('-c',
-        help = 'Configuration file path',
-        default = '',
-        type = str,
-        required = False)
-    parser.add_argument('-o',
-        help = 'Output file path',
-        default = "./clean.out",
-        type = str,
-        required = False)
-    args = parser.parse_args()
-    try:
-        setup_logging()
-        cleaner(args.f, args.o, args.c)
-    except Exception as e:
-        logger.error("Error found: " + str(e))
-        raise
-    sys.exit(0)
+def cleaner(params, config):
+  """ This is the core function. First, it sets the configuration file and the stopword file
+      then read the input CSV file using a local buffer. The data read is processed line 
+      by line and the result is stored in the outpufile.
+  """
+  #Set stopwords globally
+  funcitons = stopwords = load_stopwords(config.stopword_file_path)
+  logger.debug("Configuration = " + str(config.toHash()))
+  #Read data from input file
+  p = BufferedParserXSV(config.fields, params.input_file, config.buffer_size, config.split_criteria_line)
+  s = SerializerXSV(params.output_file, config.over_write_output_file, config.new_fields)
+  proc = Processor(params.text_field, params.new_text_field, params.sentence_proc_list, params.token_proc_list)
+  while True:
+    raw_objects = p.nextObjects()
+    if not raw_objects:
+      break
+    [new_objects, count_line, count_line_output] = proc.processFile(raw_objects)
+    logger.info("Lines: Processed = " + str(count_line) + ", Produced = " + str(count_line_output) )
+    s.pushObjects(new_objects)
+  logger.info("Total lines: Processed = " + str(count_line) + ", Produced = " + str(count_line_output) )
+

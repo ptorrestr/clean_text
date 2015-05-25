@@ -13,10 +13,8 @@ from clean_text.cleaner import sentenize
 from clean_text.cleaner import cleanSentence
 from clean_text.cleaner import Processor 
 from clean_text.cleaner import cleaner
-from clean_text.config import getConfig
-from clean_text.config import setConfig
-from clean_text.data import setStopwordsPath
-from clean_text.dataglobal import init
+from clean_text.cleaner import load_stopwords
+from clean_text.functions import stopwords
 
 
 """ Count the word in the file given"""
@@ -28,9 +26,8 @@ def wordCount(word, file_):
 
 class TestCleanerFunctions(unittest.TestCase):
   def setUp(self):
-    init()
-    setStopwordsPath("./etc/stopwords_en.txt")
-    
+    pass
+ 
   def test_sentenceCleaner(self):
     sentence = "this is a @user sample and a http://hi.com sample"
     goldenSentence = "this is a  sample and a  sample"
@@ -53,12 +50,14 @@ class TestCleanerFunctions(unittest.TestCase):
     sentence = "Hello I'm very happy 1313"
     goldenSentence = "hello"
     tokens = tokenize(sentence)
+    stopwords = load_stopwords('etc/stopwords_en.txt')
     newTokens = tokenCleaner(tokens, ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording"])
     self.assertEqual(sentenize(newTokens), goldenSentence)
     
   def test_cleanSentence(self):
     sentence = ("At 8 o'clock on Thursday morning, the boys and girls didn't feel very good.")
     sentenceProcList = ["removeUrl", "removeUserMention"]
+    stopwords = load_stopwords('etc/stopwords_en.txt')
     tokenProcList = ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording", "removeSingleChar", "removeDoubleChar"]
     newSentence = cleanSentence(sentence, sentenceProcList, tokenProcList)
     goldSentence = "oclock thursday morning boy girl feel good"
@@ -67,6 +66,7 @@ class TestCleanerFunctions(unittest.TestCase):
   def test_cleanSentenceUnicode(self):
     sentence = u"Según @NWS_PTWC, no hay riesgo generalizado de #tsunami tras el #sismo de Japón http://t.co/icErcNfSCf"
     sentenceProcList = ["removeUrl", "removeUserMention"]
+    stopwords = load_stopwords('etc/stopwords_en.txt')
     tokenProcList = ["stemming", "toLowerCase", "removePunctuationAndNumbers", "stopwording", "removeSingleChar", "removeDoubleChar"]
     newSentence = cleanSentence(sentence, sentenceProcList, tokenProcList)
     goldSentence = u"según hay riesgo generalizado tsunami tras sismo japón"
@@ -88,9 +88,13 @@ class TestCleanerFunctions(unittest.TestCase):
       "status_clean":"awesome amaze shin star merci baloji"
       }
     rawObjects = [rawObject]
-    setConfig()
-    config = getConfig()
-    proc = Processor(config)
+    text_field = 'status'
+    new_text_field = 'status_clean'
+    sentence_proc_list = {'removeUrl', 'removeUserMention'}
+    token_proc_list = {'stemming', 'toLowerCase', 'removePunctuationAndNumbers',
+      'stopwording', 'removeSingleChar', 'removeDoubleChar'}
+    stopwords = load_stopwords('etc/stopwords_en.txt')
+    proc = Processor(text_field, new_text_field, sentence_proc_list, token_proc_list)
     newRawObject = proc.processFile(rawObjects)
     self.assertEqual(rawObject, goldenRawObject)
 
@@ -110,9 +114,13 @@ class TestCleanerFunctions(unittest.TestCase):
       "status_clean":u"Según hay riesgo generalizado tsunami tras sismo Japón"
     }
     rawObjects = [rawObject]
-    setConfig()
-    config = getConfig()
-    proc = Processor(config)
+    text_field = 'status'
+    new_text_field = 'status_clean'
+    sentence_proc_list = {'removeUrl', 'removeUserMention'}
+    token_proc_list = {'stemming', 'toLowerCase', 'removePunctuationAndNumbers', 
+      'stopwording', 'removeSingleChar', 'removeDoubleChar'}
+    stopwords = load_stopwords('etc/stopwords_en.txt')
+    proc = Processor(text_field, new_text_field, sentence_proc_list, token_proc_list)
     newRawObject = proc.processFile(rawObjects)
     self.assertEqual(rawObject, goldenRawObject)
 
@@ -125,9 +133,13 @@ class TestCleanerFunctions(unittest.TestCase):
       "status":"@baloji you were so awesome, it was amazing and you were shining like the star that you are...MERCI!! #baloji i_i"
       }
     rawObjects = [rawObject]
-    setConfig()
-    config = getConfig()
-    config.textField = "otherfield"
+    text_field = 'otherfield'
+    new_text_field = 'status_clean'
+    sentence_proc_list = {'removeUrl', 'removeUserMention'}
+    token_proc_list = {'stemming', 'toLowerCase', 'removePunctuationAndNumbers', 
+      'stopwording', 'removeSingleChar', 'removeDoubleChar'}
+    stopwords = load_stopwords('etc/stopwords_en.txt')
+    proc = Processor(text_field, new_text_field, sentence_proc_list, token_proc_list)
     proc = Processor(config)
     self.assertRaises(Exception, proc.processFile, rawObjects)
 

@@ -11,18 +11,17 @@ from clean_text.functions import toLowerCase
 from clean_text.functions import removePunctuationAndNumbers
 from clean_text.functions import removeSingleChar
 from clean_text.functions import removeDoubleChar
+from clean_text.functions import stopwords
 
 from clean_text.cleaner import tokenize
 from clean_text.cleaner import sentenize
-from clean_text.data import setStopwordsPath
-from clean_text.dataglobal import init
+from clean_text.cleaner import load_stopwords
 
 logger = logging.getLogger('clean_text')
 
 class TestFunctionsFunctions(unittest.TestCase):
   def setUp(self):
-    init()
-    setStopwordsPath("./etc/stopwords_en.txt")
+    pass
 
   def test_removeUrl(self):
     sentence = "this is an URL http://google.ie http://google.cl http://google.com"
@@ -75,10 +74,12 @@ class TestFunctionsFunctions(unittest.TestCase):
   def test_stopwording(self):
     sentence = "at eight not on thursday morning Arthur didn't feel very good"
     goldenSentence = "eight thursday morning Arthur n't feel good"
+    language = 'english'
+    stopwords = load_stopwords('etc/stopwords_en.txt')
     tokens = tokenize(sentence)
     newTokens = []
     for token in tokens:
-      newTokens.append(stopwording(token))
+      newTokens.append(stopwording(token) )
     self.assertEqual(sentenize(newTokens), goldenSentence)
 
   def test_removePunctuationAndNumbers(self):

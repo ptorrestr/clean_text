@@ -17,7 +17,7 @@ It is recomendable to use virtualenv to avoid package conflicts
 * source /SOME/PATH/bin/activate
 
 t2db\_objects:
- * `pip install git+https://gitlab.insight-centre.org/hujo/t2db_objects.git`
+ * `pip install git+https://github.com/ptorrestr/t2db_objects.git`
 
 Manually install:
 * `git clone CLEAN_TEXT_URL`
