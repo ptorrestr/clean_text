@@ -13,15 +13,15 @@ import sys
 import argparse
 import logging
 
+from t2db_objects.serializerXSV import SerializerXSV
+from t2db_objects.serializerXSV import BufferedParserXSV
+
 from clean_text.config import getConfig
 from clean_text.config import setConfig
-from clean_text.serializerXSV import ParserXSV_CSV
-from clean_text.serializerXSV import SerializerXSV
 from clean_text import data
 from clean_text import dataglobal
 from clean_text.logger import setup_logging
 from clean_text import functions
-
 
 # Get log config file
 
@@ -192,7 +192,7 @@ def cleaner(path, outputPath, confFilePath):
     #Read data from input file
     fields = config.fields 
     outFields = config.newFields 
-    p = ParserXSV_CSV(fields, path, config.bufferSize, config.splitCriteriaLine)
+    p = BufferedParserXSV(fields, path, config.bufferSize, config.splitCriteriaLine)
     s = SerializerXSV(outputPath, config.overWriteOutputFile, outFields)
     proc = Processor(config)
     while True:

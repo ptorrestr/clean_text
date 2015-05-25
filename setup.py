@@ -6,13 +6,14 @@ def readme():
         return f.read()
 
 def version():
-  out = subprocess.Popen(['git','describe','--tags'], stdout = subprocess.PIPE )
+  out = subprocess.Popen(['git','describe','--tags'], stdout = subprocess.PIPE, universal_newlines=True)
   out.wait()
   if out.returncode:
     with open('version') as f:
       return f.read()
   else:
     m_version = out.stdout.read().strip()
+    print(m_version)
     with open('version', 'w') as f:
       f.write(m_version)
     return m_version

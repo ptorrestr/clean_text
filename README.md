@@ -9,11 +9,11 @@ OpenBLAS:
  It is pretty easy to build an own optimized version of openBLAS. First you need get the code and compile it as usually. Then setup the environment and indicate to distribute to build numpy with the openblas library. See here for more info: http://osdf.github.io/blog/numpyscipy-with-openblas-for-ubuntu-1204-second-try.html
 
 Lapack:
-Because clean_text is based on nltk, you need install blas and lapack libraries. It is recommeded to install an optimized version of both. This libraries can be found on the package management tools of the linux distribution. (debian: liblapack-dev). 
+Because clean\_text is based on nltk, you need install blas and lapack libraries. It is recommeded to install an optimized version of both. This libraries can be found on the package management tools of the linux distribution. (debian: liblapack-dev). 
 If you think is worthy, you can build your own optimized version of the library. This tutorial explain exacltly the necessary steps to do so. http://theoryno3.blogspot.ie/2010/12/compiling-lapack-as-shared-library-in.html
 
 It is recomendable to use virtualenv to avoid package conflicts
-* virtualenv /SOME/PATH -p python2
+* virtualenv /SOME/PATH -p python3
 * source /SOME/PATH/bin/activate
 
 t2db\_objects:
@@ -31,8 +31,8 @@ Numpy over Openblas
 * `mkdir build`
 * `pip install -d download numpy`
 * `tar -xvf download/numpy*.tar.gz`
-* mv download/numpy* build/
-* create file build/numpy*/site.cfg. Add the following data:
+* mv download/numpy\* build/
+* create file build/numpy\*/site.cfg. Add the following data:
 `
 [default]
 library_dirs = /opt/usr/local/openblas/lib

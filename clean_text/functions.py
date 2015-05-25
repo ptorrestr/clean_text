@@ -10,6 +10,7 @@ the string. In the other hand, tokens functions analyse the sentence dividing
 the string first.
 """
 import nltk
+from nltk.corpus import brown
 from nltk.corpus import wordnet
 import re
 import logging
