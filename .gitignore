@@ -45,3 +45,6 @@ nosetests.xml
 
 #build docs
 docs/build
+
+#tmp
+*.tmp

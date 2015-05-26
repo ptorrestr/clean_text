@@ -17,7 +17,6 @@ from t2db_objects.serializerXSV import SerializerXSV
 from t2db_objects.serializerXSV import BufferedParserXSV
 from t2db_objects.utilities import readListFile
 
-from clean_text.logger import setup_logging
 from clean_text import functions
 
 logger = logging.getLogger("clean_text")
@@ -195,7 +194,7 @@ def cleaner(params, config):
   #Read data from input file
   p = BufferedParserXSV(config.fields, params.input_file, config.buffer_size, config.split_criteria_line)
   s = SerializerXSV(params.output_file, config.over_write_output_file, config.new_fields)
-  proc = Processor(params.text_field, params.new_text_field, params.sentence_proc_list, params.token_proc_list)
+  proc = Processor(config.text_field, config.new_text_field, config.sentence_proc_list, config.token_proc_list)
   while True:
     raw_objects = p.nextObjects()
     if not raw_objects:

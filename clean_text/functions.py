@@ -12,6 +12,7 @@ the string first.
 import nltk
 from nltk.corpus import brown
 from nltk.corpus import wordnet
+from nltk.corpus import stopwords as nltk_stopwords
 import re
 import logging
 
@@ -136,9 +137,10 @@ def stopwording(token, language = 'english'):
   Input: two-length list. The first element is the word, and the sencond the tag(stemming).
   Determine if the word is stopword or not.
   """
-  global stopwords
+  #global stopwords
   #TODO: Use a better data-structure. Other languages
-  if token[0] in nltk.corpus.stopwords.words(language):
+  lang_stopwords = set(nltk_stopwords.words(language))
+  if token[0] in lang_stopwords:
     return ("", token[1])
   if token[0] in stopwords:
     return ("", token[1])

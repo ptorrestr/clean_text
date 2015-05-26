@@ -2,8 +2,10 @@ import logging
 import sys
 from t2db_objects.parameters import generate_parameters
 from t2db_objects.parameters import generate_config
+from t2db_objects.logger import setup_logging
 
-from clean_text.cleaner import cleaner
+from clean_text.cleaner import load_stopwords
+from clean_text.cleaner import cleaner 
 
 logger = logging.getLogger('clean_text')
 
@@ -26,7 +28,9 @@ param_fields = [
   {'name':'config_file','kind':'non-mandatory','type':str,'default':None, 'abbr':'--config','help':'Configuration file'},
 ]
 
-def cleaner():
+def run_cleaner():
+  """ Runnable function
+  """
   setup_logging()
   description = 'Text cleaner'
   epilog = 'Pablo Torres, pablo.torres.t@gmail.com'
