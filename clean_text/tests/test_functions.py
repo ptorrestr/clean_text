@@ -15,7 +15,7 @@ from clean_text.functions import stopwords
 
 from clean_text.cleaner import tokenize
 from clean_text.cleaner import sentenize
-from clean_text.cleaner import load_stopwords
+from clean_text.utilities import load_stopwords
 
 logger = logging.getLogger('clean_text')
 

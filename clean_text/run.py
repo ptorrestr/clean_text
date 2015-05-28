@@ -4,7 +4,6 @@ from t2db_objects.parameters import generate_parameters
 from t2db_objects.parameters import generate_config
 from t2db_objects.logger import setup_logging
 
-from clean_text.cleaner import load_stopwords
 from clean_text.cleaner import cleaner 
 
 logger = logging.getLogger('clean_text')
@@ -13,7 +12,7 @@ conf_fields = [
   {'name':'over_write_output_file','kind':'non-mandatory','type':bool,'default':False},
   {'name':'buffer_size','kind':'non-mandatory','type':int,'default':100},
   {'name':'split_criteria_line','kind':'non-mandatory','type':str, 'default':'\t'},
-  {'name':'stopword_file_path','kind':'mandatory','type':str,'default':None},
+  {'name':'stopword_file_path','kind':'non-mandatory','type':str,'default':'stopwords'},
   {'name':'sentence_proc_list','kind':'mandatory','type':list,'default':None},
   {'name':'token_proc_list','kind':'mandatory','type':list,'default':None},
   {'name':'fields','kind':'mandatory','type':list,'default':None},

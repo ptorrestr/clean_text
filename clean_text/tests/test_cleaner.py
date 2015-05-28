@@ -18,7 +18,7 @@ from clean_text.cleaner import sentenize
 from clean_text.cleaner import cleanSentence
 from clean_text.cleaner import Processor 
 from clean_text.cleaner import cleaner
-from clean_text.cleaner import load_stopwords
+from clean_text.utilities import load_stopwords
 from clean_text.run import param_fields
 from clean_text.run import conf_fields
 from clean_text import functions

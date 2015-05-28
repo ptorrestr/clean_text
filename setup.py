@@ -38,7 +38,7 @@ setup(
   install_requires = dependencies(),
   entry_points = {
     'console_scripts':[
-      'clean_text = clean_text.cleaner:main'
+      'clean_text = clean_text.run:run_cleaner'
     ]
   },
   test_suite = 'clean_text.tests',

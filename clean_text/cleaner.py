@@ -9,14 +9,13 @@ before used this application
 """
 
 import nltk
-import sys
-import argparse
 import logging
 
 from t2db_objects.serializerXSV import SerializerXSV
 from t2db_objects.serializerXSV import BufferedParserXSV
 from t2db_objects.utilities import readListFile
 
+from clean_text.utilities import load_stopwords
 from clean_text import functions
 
 logger = logging.getLogger("clean_text")
@@ -171,25 +170,13 @@ class Processor(object):
         raise
     return [newObjects, self.countLine, self.countLineOutput]
 
-def load_stopwords(stopwords_file_path):
-  """
-  Get a list of stopword defined in the stopword file path.
-  """
-  # load stopwords
-  try:
-    stopwords = readListFile(stopwords_file_path)
-  except Exception as e:
-   logger.error("Couldn't read stopword file: " + stopwords_file_path)
-   raise
-  return stopwords
-
 def cleaner(params, config):
   """ This is the core function. First, it sets the configuration file and the stopword file
       then read the input CSV file using a local buffer. The data read is processed line 
       by line and the result is stored in the outpufile.
   """
   #Set stopwords globally
-  funcitons = stopwords = load_stopwords(config.stopword_file_path)
+  stopwords = load_stopwords(config.stopword_file_path)
   logger.debug("Configuration = " + str(config.toHash()))
   #Read data from input file
   p = BufferedParserXSV(config.fields, params.input_file, config.buffer_size, config.split_criteria_line)
