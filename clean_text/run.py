@@ -1,7 +1,7 @@
 import logging
 import sys
 from t2db_objects.parameters import generate_parameters
-from t2db_objects.parameters import generate_config
+from t2db_objects.parameters import generate_config_yaml
 from t2db_objects.logger import setup_logging
 
 from clean_text.cleaner import cleaner 
@@ -34,7 +34,7 @@ def run_cleaner():
   description = 'Text cleaner'
   epilog = 'Pablo Torres, pablo.torres.t@gmail.com'
   params = generate_parameter(param_fields, description, epilog)
-  config = generate_config(conf_fields, params.config_file)
+  config = generate_config_yaml(conf_fields, params.config_file)
   cleaner(params, config)
   sys.exit(0)
 

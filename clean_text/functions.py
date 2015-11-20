@@ -10,13 +10,15 @@ the string. In the other hand, tokens functions analyse the sentence dividing
 the string first.
 """
 import nltk
+from nltk.stem import WordNetLemmatizer
 from nltk.corpus import brown
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords as nltk_stopwords
 import re
 import logging
 
-from clean_text.language import NGram
+from clean_text.language import get_languages
+from clean_text.language import recognize_language
 
 logger = logging.getLogger("clean_text")
 
@@ -54,11 +56,6 @@ url_pattern = re.compile(
   r')'
   )
 
-# Train english detector
-with open("etc/big.txt") as f:
-  text = f.read()
-english = NGram(text, n = 3)
-
 def removeUrl(sentence):
   """
   Sentence function
@@ -84,11 +81,10 @@ def englishLanguage(sentence):
   If the sentence language is english, the function will return a non-empty string. Otherwise, an empty string will be returned.
   Output: String
   """
-  similarity = english - NGram(sentence, n=3)
-  if similarity > 0.85:
-    return ""
-  logger.debug("similarity = " + str(similarity))
-  return sentence
+  my_lang = recognize_language(sentence, get_languages(), threshold = 0.85)
+  if my_lang and my_lang.name == 'english':
+    return sentence
+  return ''
 
 def stemming(token):
   """
@@ -96,7 +92,7 @@ def stemming(token):
   Input: two-length list. The first element is the word, and the sencond the tag(stemming).
   Get the root of the word.
   """
-  lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
+  lmtzr = WordNetLemmatizer()
   trans = getWordnetPos(token[1])
   newToken = token[0]
   if not trans == "":

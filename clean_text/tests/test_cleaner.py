@@ -9,7 +9,7 @@ from os import remove
 
 from t2db_objects import objects
 from t2db_objects.utilities import formatHash
-from t2db_objects.parameters import generate_config
+from t2db_objects.parameters import generate_config_yaml
 
 from clean_text.cleaner import sentenceCleaner
 from clean_text.cleaner import tokenCleaner
@@ -157,10 +157,10 @@ class TestCleanerFunctions(unittest.TestCase):
     rawParams = {
       'input_file':'etc/example.tsv',
       'output_file':'output.tmp',
-      'config_file':'etc/example.conf',
+      'config_file':'etc/config.yaml',
     }
     params = objects.Configuration(param_fields, rawParams)
-    config = generate_config(conf_fields, params.config_file)
+    config = generate_config_yaml(conf_fields, params.config_file)
     if isfile(params.output_file):
       remove(params.output_file)
     cleaner(params, config)

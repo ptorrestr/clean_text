@@ -1,35 +1,54 @@
 # This is a configuration file example.
 
 #overWriteOutputFile. Overwrite the output file.
-over_write_output_file = True
+over_write_output_file: True
 
 #bufferSize: Determine the size of the buffer that will be used when reading.
-buffer_size = 200
+buffer_size: 200
 
 #splitCriteriaLine: It is the string used to determine when a new column starts.
-split_criteria_line = \t
+split_criteria_line: "\t"
 
 #stopwordFile: It is the file path to the stopword file.
-stopword_file_path = ./etc/stopwords_en.txt
+stopword_file_path: './etc/stopwords_en.txt'
 
 #sentenceProcList: It is the processing list for a sentence. This list must be composed only by the function names declared in functions.py file.
 #the list must be separeted by a ' ' character. These functions affect the entire sentence.
-sentence_proc_list = ["removeUrl","removeUserMention"]
+sentence_proc_list:
+  - "removeUrl"
+  - "removeUserMention"
 
 #tokenProcList: It is the processing list for a token. This list must be composed only by the function names declared in functions.py file.
 #the list must be separated by a ' ' character. These functions afffect each token of the sentence.
-token_proc_list = ["stemming","toLowerCase","removePunctuationAndNumbers","stopwording","removeSingleChar","removeDoubleChar"]
+token_proc_list:
+  - "stemming"
+  - "toLowerCase"
+  - "removePunctuationAndNumbers"
+  - "stopwording"
+  - "removeSingleChar"
+  - "removeDoubleChar"
 
 #fields: It is the list of fields that are in the inputfile. Note that the input file
 #should have the same column-format described here.
-fields = ["date","id","hash","user_id","status"]
+fields:
+  - "date"
+  - "id"
+  - "hash"
+  - "user_id"
+  - "status"
 
 #textField: It is the text field which will be clean. It must exist in fields
-text_field = status
+text_field: 'status'
 
 #newFields: It is the list of the fields thar will be written on the outputfile. 
 #Note that the name of the new field must also be described here.
-new_fields = ["date","id","hash","user_id","status","status_clean"]
+new_fields: 
+  - "date"
+  - "id" 
+  - "hash"
+  - "user_id"
+  - "status"
+  - "status_clean"
 
 #newTextField: It is the text field which contain the clean text. It must exist in newFields.
-new_text_field = status_clean
+new_text_field: 'status_clean'
